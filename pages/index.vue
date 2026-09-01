@@ -26,31 +26,31 @@ function handleHistorySelect(number: string) {
 <template>
   <div>
     <section class="hero-section">
-      <div class="hero-badge">6 kargo firması · tek arayüz</div>
-      <h1 class="hero-title">Paketinizi Takip Edin</h1>
+      <div class="hero-stamp">6 firma · tek manifesto</div>
+      <h1 class="hero-title">Gönderinizi sorgulayın</h1>
       <p class="hero-subtitle">
-        Farklı kargo firmalarına ait gönderilerinizi tek bir uygulama üzerinden sorgulayın.
-        Tüm veriler ortak bir formatta sunulur.
+        Farklı kargo servislerinden gelen veriler ortak bir gönderi fişine dönüştürülür.
       </p>
 
-      <div v-if="useAftership" class="mode-badge">
-        Mock mod aktif — demo ve kayıtlı numaralar simüle veriyle gösterilir
-      </div>
+      <p v-if="useAftership" class="system-note">
+        <strong>Sistem notu:</strong> mock mod aktif — demo ve kayıtlı numaralar simüle veriyle gösterilir.
+      </p>
 
-      <div class="search-card">
+      <div class="search-card manifest-card">
         <form class="search-form" @submit.prevent="handleSubmit">
           <input
             v-model="trackingNumber"
             type="text"
             class="search-input"
-            placeholder="Takip numaranızı girin..."
+            placeholder="Takip numarası..."
             :disabled="loading"
             autocomplete="off"
             spellcheck="false"
+            aria-label="Takip numarası"
           >
           <button type="submit" class="btn-track" :disabled="loading || !trackingNumber.trim()">
             <span v-if="loading" class="btn-track__spinner" aria-hidden="true" />
-            {{ loading ? 'Sorgulanıyor...' : 'Takip Et' }}
+            {{ loading ? 'Sorgulanıyor' : 'Sorgula' }}
           </button>
         </form>
 
@@ -61,6 +61,7 @@ function handleHistorySelect(number: string) {
               <button
                 type="button"
                 class="demo-hint-btn"
+                :class="{ 'demo-hint-btn--active': trackingNumber === demo.number }"
                 :title="demo.label"
                 @click="handleDemoSelect(demo.number)"
               >
@@ -76,12 +77,12 @@ function handleHistorySelect(number: string) {
 
     <div v-if="loading" class="loading-state">
       <div class="spinner" />
-      <p>Kargo bilgileri getiriliyor...</p>
-      <p class="loading-state__sub">Farklı API formatları ortak yapıya dönüştürülüyor</p>
+      <p>Manifesto hazırlanıyor</p>
+      <p class="loading-state__sub">API yanıtları ortak formata dönüştürülüyor…</p>
     </div>
 
     <div v-if="error && !loading" class="error-alert" role="alert">
-      <span class="error-alert__icon">⚠️</span>
+      <span class="error-alert__stamp">HATA</span>
       <div>
         <strong class="error-alert__title">Sorgu başarısız</strong>
         <p class="error-alert__text">{{ error }}</p>

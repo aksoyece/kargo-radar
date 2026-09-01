@@ -36,17 +36,15 @@ export interface CarrierInfo {
   slug: CarrierSlug
   name: string
   prefix: string
-  icon: string
-  accent: string
 }
 
 export const CARRIERS: CarrierInfo[] = [
-  { slug: 'aras', name: 'Aras Kargo', prefix: 'ARS', icon: '🟠', accent: '#E85D04' },
-  { slug: 'yurtici', name: 'Yurtiçi Kargo', prefix: 'YRT', icon: '🔵', accent: '#0057B8' },
-  { slug: 'mng', name: 'MNG Kargo', prefix: 'MNG', icon: '🟡', accent: '#F5A623' },
-  { slug: 'ptt', name: 'PTT Kargo', prefix: 'PTT', icon: '🟡', accent: '#FFC72C' },
-  { slug: 'trendyol', name: 'Trendyol Express', prefix: 'TY', icon: '🟠', accent: '#F27A1A' },
-  { slug: 'surat', name: 'Sürat Kargo', prefix: 'SRT', icon: '🔴', accent: '#E30613' },
+  { slug: 'aras', name: 'Aras Kargo', prefix: 'ARS' },
+  { slug: 'yurtici', name: 'Yurtiçi Kargo', prefix: 'YRT' },
+  { slug: 'mng', name: 'MNG Kargo', prefix: 'MNG' },
+  { slug: 'ptt', name: 'PTT Kargo', prefix: 'PTT' },
+  { slug: 'trendyol', name: 'Trendyol Express', prefix: 'TY' },
+  { slug: 'surat', name: 'Sürat Kargo', prefix: 'SRT' },
 ]
 
 export interface DemoTracking {

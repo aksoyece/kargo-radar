@@ -1,30 +1,30 @@
 <script setup lang="ts">
 const steps = [
   {
-    icon: '🔍',
     title: 'Numaranı gir',
-    text: 'Kargo takip numaranı arama kutusuna yaz veya demo numaralardan birini seç.',
+    text: 'Takip numaranı arama kutusuna yaz veya hızlı dene kartlarından birini seç.',
   },
   {
-    icon: '🔄',
     title: 'Veri dönüştürülür',
-    text: 'Farklı firmalardan gelen API yanıtları ortak bir formata çevrilir.',
+    text: 'Her firmanın farklı API yanıtı ortak gönderi formatına çevrilir.',
   },
   {
-    icon: '📍',
-    title: 'Durumu takip et',
-    text: 'Güncel konum, son güncelleme ve tüm hareket geçmişini timeline\'da gör.',
+    title: 'Manifestoyu oku',
+    text: 'Güncel konum, son güncelleme ve tüm hareket kaydını fiş üzerinde gör.',
   },
 ]
 </script>
 
 <template>
   <section class="how-section" aria-label="Nasıl çalışır">
-    <h2 class="section-title">Nasıl Çalışır?</h2>
+    <h2 class="section-title">Nasıl çalışır</h2>
     <div class="how-grid">
-      <article v-for="(step, index) in steps" :key="step.title" class="how-card">
-        <div class="how-card__step">{{ index + 1 }}</div>
-        <div class="how-card__icon" aria-hidden="true">{{ step.icon }}</div>
+      <article
+        v-for="(step, index) in steps"
+        :key="step.title"
+        class="how-card manifest-card"
+      >
+        <div class="how-card__step">Adım {{ index + 1 }}</div>
         <h3 class="how-card__title">{{ step.title }}</h3>
         <p class="how-card__text">{{ step.text }}</p>
       </article>

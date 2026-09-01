@@ -33,7 +33,7 @@ export default defineNuxtConfig({
         },
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap',
+          href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap',
         },
       ],
       meta: [
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
         },
         {
           name: 'theme-color',
-          content: '#FF5A1F',
+          content: '#1c2430',
         },
       ],
     },

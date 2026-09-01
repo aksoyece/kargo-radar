@@ -11,9 +11,9 @@ const { history, removeFromHistory, clearHistory } = useSearchHistory()
 <template>
   <section v-if="history.length > 0" class="history-section">
     <div class="history-section__header">
-      <h2 class="history-section__title">Arama Geçmişi</h2>
+      <h2 class="history-section__title">Arama geçmişi</h2>
       <button type="button" class="btn-clear-history" @click="clearHistory">
-        Temizle
+        temizle
       </button>
     </div>
     <ul class="history-list">
@@ -26,11 +26,12 @@ const { history, removeFromHistory, clearHistory } = useSearchHistory()
         <div class="history-item__info">
           <span class="history-item__number">{{ item.trackingNumber }}</span>
           <span class="history-item__carrier">
-            {{ item.carrier }} · {{ STATUS_LABELS[item.currentStatus] }}
+            {{ item.carrier }}
           </span>
         </div>
         <span
-          :class="['status-badge', `status-badge--${item.currentStatus}`]"
+          class="status-stamp"
+          :class="`status-stamp--${item.currentStatus}`"
         >
           {{ STATUS_LABELS[item.currentStatus] }}
         </span>

@@ -4,18 +4,17 @@ import { CARRIERS } from '~/types/tracking'
 
 <template>
   <section class="carriers-section" aria-label="Desteklenen kargo firmaları">
-    <h2 class="section-title">Desteklenen Kargo Firmaları</h2>
+    <h2 class="section-title">Desteklenen firmalar</h2>
     <p class="section-subtitle">
-      Farklı API formatları tek bir arayüzde birleştirilir.
+      Her firma farklı API formatı kullanır; hepsi aynı manifesto fişine dönüştürülür.
     </p>
     <div class="carriers-grid">
       <div
         v-for="carrier in CARRIERS"
         :key="carrier.slug"
         class="carrier-card"
-        :style="{ '--carrier-accent': carrier.accent }"
       >
-        <span class="carrier-card__icon" aria-hidden="true">{{ carrier.icon }}</span>
+        <span class="carrier-card__code">{{ carrier.prefix }}</span>
         <span class="carrier-card__name">{{ carrier.name }}</span>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { STATUS_ICONS, STATUS_LABELS } from '~/types/tracking'
+import { STATUS_LABELS } from '~/types/tracking'
 import type { NormalizedShipment } from '~/types/tracking'
 
 const props = defineProps<{
@@ -25,23 +25,30 @@ async function copyTrackingNumber() {
 </script>
 
 <template>
-  <div class="result-card">
+  <div class="result-card manifest-card">
     <div class="result-header">
       <div class="result-header__top">
-        <div class="result-header__carrier">{{ shipment.carrier }}</div>
+        <div class="result-header__meta">
+          <p class="result-header__eyebrow">Gönderi manifestosu</p>
+          <h2 class="result-header__carrier">{{ shipment.carrier }}</h2>
+        </div>
         <button
           type="button"
           class="btn-copy"
-          :title="copied ? 'Kopyalandı!' : 'Numarayı kopyala'"
+          :title="copied ? 'Kopyalandı' : 'Numarayı kopyala'"
           @click="copyTrackingNumber"
         >
-          {{ copied ? '✓ Kopyalandı' : '📋 Kopyala' }}
+          {{ copied ? 'kopyalandı' : 'kopyala' }}
         </button>
       </div>
       <div class="result-header__number">{{ shipment.trackingNumber }}</div>
       <div class="result-status">
-        <span class="result-status__icon">{{ STATUS_ICONS[shipment.currentStatus] }}</span>
-        <span class="result-status__label">{{ STATUS_LABELS[shipment.currentStatus] }}</span>
+        <span
+          class="status-stamp status-stamp--lg"
+          :class="`status-stamp--${shipment.currentStatus}`"
+        >
+          {{ STATUS_LABELS[shipment.currentStatus] }}
+        </span>
       </div>
     </div>
 
@@ -51,12 +58,12 @@ async function copyTrackingNumber() {
         <span>{{ shipment.currentLocation }}</span>
       </div>
       <div class="result-meta__item">
-        <label>Son Güncelleme</label>
-        <span>{{ shipment.lastUpdated }}</span>
+        <label>Son güncelleme</label>
+        <span class="mono">{{ shipment.lastUpdated }}</span>
       </div>
       <div class="result-meta__item result-meta__item--full">
-        <label>Toplam Hareket</label>
-        <span>{{ shipment.events.length }} kayıt</span>
+        <label>Toplam hareket</label>
+        <span class="mono">{{ shipment.events.length }} kayıt</span>
       </div>
     </div>
 
