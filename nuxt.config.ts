@@ -42,6 +42,18 @@ export default defineNuxtConfig({
           content: 'Kargo Radar — farklı kargo firmalarına ait gönderilerinizi tek bir uygulama üzerinden takip edin.',
         },
         {
+          property: 'og:title',
+          content: 'Kargo Radar',
+        },
+        {
+          property: 'og:description',
+          content: 'Farklı kargo firmalarına ait gönderilerinizi tek bir uygulama üzerinden takip edin.',
+        },
+        {
+          property: 'og:url',
+          content: 'https://kargo-radar.vercel.app',
+        },
+        {
           name: 'theme-color',
           content: '#2563eb',
         },
