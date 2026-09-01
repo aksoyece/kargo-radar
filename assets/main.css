@@ -866,17 +866,23 @@ body,
 
 .app-footer__inner {
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.app-footer__logo-link {
+  display: inline-flex;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .app-footer__credit-line {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  margin: 0 0 0 auto;
+  text-align: right;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: #64748b;
-  margin: 0;
   line-height: 1.5;
 }
 
@@ -932,10 +938,13 @@ body,
   }
 
   .app-footer__inner {
-    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 
   .app-footer__credit-line {
+    margin-left: 0;
     text-align: left;
   }
 }

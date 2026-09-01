@@ -21,8 +21,10 @@
 
     <footer class="app-footer">
       <div class="app-footer__inner container">
+        <NuxtLink to="/" class="app-footer__logo-link" aria-label="Paket Dedektifi ana sayfa">
+          <AppLogoIcon :size="22" class="app-footer__logo" />
+        </NuxtLink>
         <p class="app-footer__credit-line">
-          <AppLogoIcon :size="18" class="app-footer__logo" />
           &copy; {{ new Date().getFullYear() }} Paket Dedektifi
           <span class="app-footer__sep" aria-hidden="true">·</span>
           Designed &amp; developed by
