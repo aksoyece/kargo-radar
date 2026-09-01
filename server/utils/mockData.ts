@@ -391,3 +391,128 @@ export function simulateDelay<T>(data: T, ms: number): Promise<T> {
     setTimeout(() => resolve(data), ms)
   })
 }
+
+export function createHepsijetDeliveredMock(trackingNumber: string) {
+  const dates = buildDeliveredDates(trackingNumber)
+
+  return {
+    current_status: 'DELIVERED',
+    location: { city: 'Teslim Adresi' },
+    barcode: trackingNumber,
+    updated_at: dates.delivered,
+    movements: [
+      { current_status: 'DELIVERED', location: { city: 'Teslim Adresi' }, timestamp: dates.delivered, description: 'Teslim edildi' },
+      { current_status: 'OUT_FOR_DELIVERY', location: { city: 'Dağıtım Şubesi' }, timestamp: dates.outForDelivery, description: 'Dağıtımda' },
+      { current_status: 'AT_DISTRIBUTION', location: { city: 'Varış Şubesi' }, timestamp: dates.atHub, description: 'Dağıtım merkezine ulaştı' },
+      { current_status: 'TRANSIT', location: { city: 'Transfer Merkezi' }, timestamp: dates.inTransit, description: 'Transfer merkezinden ayrıldı' },
+      { current_status: 'PREPARING', location: { city: 'Çıkış Şubesi' }, timestamp: dates.accepted, description: 'Kargo kabul edildi' },
+    ],
+  }
+}
+
+export const HEPSIJET_MOCK: Record<string, object> = {
+  HPS345678901: {
+    current_status: 'TRANSIT',
+    location: { city: 'Eskişehir' },
+    barcode: 'HPS345678901',
+    updated_at: '2026-09-01T12:05:00+03:00',
+    movements: [
+      { current_status: 'TRANSIT', location: { city: 'Eskişehir' }, timestamp: '2026-09-01T12:05:00+03:00', description: 'Transfer merkezinden ayrıldı' },
+      { current_status: 'AT_DISTRIBUTION', location: { city: 'Ankara' }, timestamp: '2026-09-01T06:40:00+03:00', description: 'Dağıtım merkezine ulaştı' },
+      { current_status: 'PREPARING', location: { city: 'Ankara' }, timestamp: '2026-08-31T15:20:00+03:00', description: 'Kargo kabul edildi' },
+    ],
+  },
+}
+
+export function getHepsijetMockData(trackingNumber: string) {
+  const normalized = trackingNumber.trim().toUpperCase()
+  return HEPSIJET_MOCK[normalized] || createHepsijetDeliveredMock(normalized)
+}
+
+export function createUpsDeliveredMock(trackingNumber: string) {
+  const dates = buildDeliveredDates(trackingNumber)
+
+  return {
+    trackResponse: {
+      shipment: [{
+        inquiryNumber: trackingNumber,
+        package: [{
+          activity: [
+            { status: { type: 'D', description: 'Teslim edildi' }, location: { address: { city: 'Teslim Adresi' } }, date: dates.delivered.slice(0, 10), time: dates.delivered.slice(11, 19) },
+            { status: { type: 'O', description: 'Dağıtımda' }, location: { address: { city: 'Dağıtım Şubesi' } }, date: dates.outForDelivery.slice(0, 10), time: dates.outForDelivery.slice(11, 19) },
+            { status: { type: 'X', description: 'Dağıtım merkezine ulaştı' }, location: { address: { city: 'Varış Şubesi' } }, date: dates.atHub.slice(0, 10), time: dates.atHub.slice(11, 19) },
+            { status: { type: 'I', description: 'Yolda' }, location: { address: { city: 'Transfer Merkezi' } }, date: dates.inTransit.slice(0, 10), time: dates.inTransit.slice(11, 19) },
+            { status: { type: 'M', description: 'Kargo kabul edildi' }, location: { address: { city: 'Çıkış Şubesi' } }, date: dates.accepted.slice(0, 10), time: dates.accepted.slice(11, 19) },
+          ],
+        }],
+      }],
+    },
+  }
+}
+
+export const UPS_MOCK: Record<string, object> = {
+  UPS9876543210: {
+    trackResponse: {
+      shipment: [{
+        inquiryNumber: 'UPS9876543210',
+        package: [{
+          activity: [
+            { status: { type: 'X', description: 'Dağıtım merkezine ulaştı' }, location: { address: { city: 'İstanbul' } }, date: '2026-09-01', time: '08:30:00' },
+            { status: { type: 'I', description: 'Yolda' }, location: { address: { city: 'Gebze' } }, date: '2026-08-31', time: '22:15:00' },
+            { status: { type: 'M', description: 'Kargo kabul edildi' }, location: { address: { city: 'Gebze' } }, date: '2026-08-31', time: '14:00:00' },
+          ],
+        }],
+      }],
+    },
+  },
+}
+
+export function getUpsMockData(trackingNumber: string) {
+  const normalized = trackingNumber.trim().toUpperCase()
+  return UPS_MOCK[normalized] || createUpsDeliveredMock(normalized)
+}
+
+export function createKolaygelsinDeliveredMock(trackingNumber: string) {
+  const dates = buildDeliveredDates(trackingNumber)
+
+  return {
+    data: {
+      shipment: {
+        consignmentNo: trackingNumber,
+        statusCode: '5',
+        statusText: 'Teslim Edildi',
+        lastLocation: 'Teslim Adresi',
+        lastUpdateTime: dates.delivered,
+      },
+      trackingDetails: [
+        { statusCode: '5', statusDescription: 'Teslim edildi', locationName: 'Teslim Adresi', eventDate: dates.delivered },
+        { statusCode: '4', statusDescription: 'Dağıtımda', locationName: 'Dağıtım Şubesi', eventDate: dates.outForDelivery },
+        { statusCode: '3', statusDescription: 'Dağıtım merkezine ulaştı', locationName: 'Varış Şubesi', eventDate: dates.atHub },
+        { statusCode: '2', statusDescription: 'Transfer merkezinden ayrıldı', locationName: 'Transfer Merkezi', eventDate: dates.inTransit },
+        { statusCode: '1', statusDescription: 'Kargo kabul edildi', locationName: 'Çıkış Şubesi', eventDate: dates.accepted },
+      ],
+    },
+  }
+}
+
+export const KOLAYGELSIN_MOCK: Record<string, object> = {
+  KOL112233445: {
+    data: {
+      shipment: {
+        consignmentNo: 'KOL112233445',
+        statusCode: '1',
+        statusText: 'Hazırlanıyor',
+        lastLocation: 'Adana',
+        lastUpdateTime: '2026-09-01T07:10:00+03:00',
+      },
+      trackingDetails: [
+        { statusCode: '1', statusDescription: 'Kargo kabul edildi', locationName: 'Adana', eventDate: '2026-09-01T07:10:00+03:00' },
+      ],
+    },
+  },
+}
+
+export function getKolaygelsinMockData(trackingNumber: string) {
+  const normalized = trackingNumber.trim().toUpperCase()
+  return KOLAYGELSIN_MOCK[normalized] || createKolaygelsinDeliveredMock(normalized)
+}

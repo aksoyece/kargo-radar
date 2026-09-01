@@ -78,6 +78,36 @@ export function mapSuratStatus(code: string): ShipmentStatus {
   return SURAT_STATUS_MAP[code] ?? 'in_transit'
 }
 
+const HEPSIJET_STATUS_MAP: Record<string, ShipmentStatus> = {
+  PREPARING: 'preparing',
+  TRANSIT: 'in_transit',
+  AT_DISTRIBUTION: 'at_distribution_center',
+  OUT_FOR_DELIVERY: 'out_for_delivery',
+  DELIVERED: 'delivered',
+  EXCEPTION: 'problem',
+}
+
+const UPS_STATUS_MAP: Record<string, ShipmentStatus> = {
+  M: 'preparing',
+  I: 'in_transit',
+  X: 'at_distribution_center',
+  O: 'out_for_delivery',
+  D: 'delivered',
+  XN: 'problem',
+}
+
+export function mapHepsijetStatus(status: string): ShipmentStatus {
+  return HEPSIJET_STATUS_MAP[status] ?? 'in_transit'
+}
+
+export function mapUpsStatus(code: string): ShipmentStatus {
+  return UPS_STATUS_MAP[code] ?? 'in_transit'
+}
+
+export function mapKolaygelsinStatus(code: string): ShipmentStatus {
+  return MNG_STATUS_MAP[code] ?? 'in_transit'
+}
+
 export function detectCarrier(trackingNumber: string): CarrierSlug | null {
   const normalized = trackingNumber.trim().toUpperCase()
 
@@ -85,6 +115,9 @@ export function detectCarrier(trackingNumber: string): CarrierSlug | null {
   if (normalized.startsWith('YRT')) return 'yurtici'
   if (normalized.startsWith('MNG')) return 'mng'
   if (normalized.startsWith('SRT')) return 'surat'
+  if (normalized.startsWith('HPS')) return 'hepsijet'
+  if (normalized.startsWith('UPS')) return 'ups'
+  if (normalized.startsWith('KOL')) return 'kolaygelsin'
 
   return null
 }

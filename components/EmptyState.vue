@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { CARRIER_COUNT } from '~/types/tracking'
+</script>
+
 <template>
   <section class="empty-state card" aria-label="Başlangıç">
     <div class="empty-state__icon" aria-hidden="true">📦</div>
@@ -8,7 +12,7 @@
     <ul class="empty-state__tips">
       <li>Demo numaralarıyla hemen deneyebilirsiniz</li>
       <li>Arama geçmişiniz otomatik kaydedilir</li>
-      <li>6 farklı kargo firması desteklenir</li>
+      <li>{{ CARRIER_COUNT }} farklı kargo firması desteklenir</li>
     </ul>
   </section>
 </template>

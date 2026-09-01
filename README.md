@@ -9,6 +9,8 @@ Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip e
 
 - **Nuxt.js 4** + **Vue.js 3**
 - **Bootstrap 5**
+- **PWA** (ana ekrana eklenebilir)
+- **Koyu / açık tema**
 - **Pinia** (state yönetimi)
 - **LocalStorage** (arama geçmişi)
 - **AfterShip Tracking API** (gerçek kargo verisi)
@@ -29,7 +31,10 @@ Uygulama `http://localhost:3000` adresinde çalışır.
 |-------|----------------|
 | Aras Kargo | `ARS123456789` |
 | Yurtiçi Kargo | `YRT987654321` |
-| MNG Kargo | `MNG456789123` |
+| Sürat Kargo | `7240436855704001` |
+| HepsiJet | `HPS345678901` |
+| UPS | `UPS9876543210` |
+| Kolay Gelsin | `KOL112233445` |
 
 ## AfterShip Entegrasyonu
 

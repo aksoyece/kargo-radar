@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', '@vite-pwa/nuxt'],
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
     '~/assets/main.css',
@@ -13,9 +13,45 @@ export default defineNuxtConfig({
       useAftership: process.env.NUXT_PUBLIC_USE_AFTERSHIP === 'true',
     },
   },
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Kargo Radar',
+      short_name: 'Kargo Radar',
+      description: 'Farklı kargo firmalarına ait gönderilerinizi tek bir uygulama üzerinden takip edin.',
+      theme_color: '#2563eb',
+      background_color: '#f1f5f9',
+      display: 'standalone',
+      lang: 'tr',
+      start_url: '/',
+      icons: [
+        {
+          src: '/pwa-192x192.svg',
+          sizes: '192x192',
+          type: 'image/svg+xml',
+          purpose: 'any',
+        },
+        {
+          src: '/pwa-512x512.svg',
+          sizes: '512x512',
+          type: 'image/svg+xml',
+          purpose: 'any maskable',
+        },
+      ],
+    },
+    workbox: {
+      navigateFallback: '/',
+    },
+  },
   app: {
     head: {
       title: 'Kargo Radar',
+      script: [
+        {
+          innerHTML: `(function(){try{var t=localStorage.getItem('kargo-radar-theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}})();`,
+          type: 'text/javascript',
+        },
+      ],
       link: [
         {
           rel: 'icon',

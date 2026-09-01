@@ -1,10 +1,13 @@
 import { fetchFromAfterShip } from '../services/aftership'
 import {
   normalizeArasResponse,
+  normalizeHepsijetResponse,
+  normalizeKolaygelsinResponse,
   normalizeMngResponse,
   normalizePttResponse,
   normalizeSuratResponse,
   normalizeTrendyolResponse,
+  normalizeUpsResponse,
   normalizeYurticiResponse,
 } from '~/services/adapters'
 import type { CarrierSlug } from '~/types/tracking'
@@ -12,14 +15,20 @@ import { detectCarrier } from '~/utils/statusMapper'
 import {
   ARAS_MOCK,
   getArasMockData,
+  getHepsijetMockData,
+  getKolaygelsinMockData,
   getPttMockData,
   getSuratMockData,
   getTrendyolMockData,
+  getUpsMockData,
+  HEPSIJET_MOCK,
+  KOLAYGELSIN_MOCK,
   MNG_MOCK,
   PTT_MOCK,
   simulateDelay,
   SURAT_MOCK,
   TRENDYOL_MOCK,
+  UPS_MOCK,
   YURTICI_MOCK,
 } from '../utils/mockData'
 
@@ -35,12 +44,17 @@ function resolveCarrier(normalized: string, raw: string): CarrierSlug {
   if (trimmed in PTT_MOCK) return 'ptt'
   if (trimmed in TRENDYOL_MOCK) return 'trendyol'
   if (normalized in SURAT_MOCK || trimmed in SURAT_MOCK) return 'surat'
+  if (normalized in HEPSIJET_MOCK) return 'hepsijet'
+  if (normalized in UPS_MOCK) return 'ups'
+  if (normalized in KOLAYGELSIN_MOCK) return 'kolaygelsin'
 
   if (/^\d+$/.test(normalized)) {
     if (normalized.startsWith('726')) return 'aras'
     if (normalized.startsWith('724')) return 'surat'
     if (normalized.startsWith('733')) return 'trendyol'
     if (normalized.startsWith('734')) return 'ptt'
+    if (normalized.startsWith('735')) return 'hepsijet'
+    if (normalized.startsWith('729')) return 'kolaygelsin'
   }
 
   return 'aras'
@@ -80,6 +94,21 @@ async function trackByCarrier(normalized: string, carrier: CarrierSlug) {
     return normalizeSuratResponse(raw as Parameters<typeof normalizeSuratResponse>[0])
   }
 
+  if (carrier === 'hepsijet') {
+    const raw = await simulateDelay(getHepsijetMockData(normalized), 880)
+    return normalizeHepsijetResponse(raw as Parameters<typeof normalizeHepsijetResponse>[0])
+  }
+
+  if (carrier === 'ups') {
+    const raw = await simulateDelay(getUpsMockData(normalized), 920)
+    return normalizeUpsResponse(raw as Parameters<typeof normalizeUpsResponse>[0])
+  }
+
+  if (carrier === 'kolaygelsin') {
+    const raw = await simulateDelay(getKolaygelsinMockData(normalized), 890)
+    return normalizeKolaygelsinResponse(raw as Parameters<typeof normalizeKolaygelsinResponse>[0])
+  }
+
   const raw = await simulateDelay(getTrendyolMockData(normalized), 950)
   return normalizeTrendyolResponse(raw as Parameters<typeof normalizeTrendyolResponse>[0])
 }
@@ -94,6 +123,9 @@ function isKnownMockNumber(normalized: string, raw: string): boolean {
     || trimmed in TRENDYOL_MOCK
     || normalized in SURAT_MOCK
     || trimmed in SURAT_MOCK
+    || normalized in HEPSIJET_MOCK
+    || normalized in UPS_MOCK
+    || normalized in KOLAYGELSIN_MOCK
     || detectCarrier(normalized) !== null
 }
 

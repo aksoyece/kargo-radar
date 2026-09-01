@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DEMO_TRACKINGS } from '~/types/tracking'
+import { CARRIER_COUNT, DEMO_TRACKINGS } from '~/types/tracking'
 
 const config = useRuntimeConfig()
 const { shipment, loading, error, trackingNumber, track, goHome } = useTracking()
@@ -26,7 +26,7 @@ function handleHistorySelect(number: string) {
 <template>
   <div>
     <section class="hero-section">
-      <p class="hero-eyebrow">6 kargo firması destekleniyor</p>
+      <p class="hero-eyebrow">{{ CARRIER_COUNT }} kargo firması destekleniyor</p>
       <h1 class="hero-title">Kargonuzu takip edin</h1>
       <p class="hero-subtitle">
         Takip numaranızı girerek gönderinizin güncel durumunu ve hareket geçmişini görüntüleyin.

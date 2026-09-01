@@ -30,7 +30,16 @@ export interface SearchHistoryItem {
   searchedAt: string
 }
 
-export type CarrierSlug = 'aras' | 'yurtici' | 'mng' | 'ptt' | 'trendyol' | 'surat'
+export type CarrierSlug =
+  | 'aras'
+  | 'yurtici'
+  | 'mng'
+  | 'ptt'
+  | 'trendyol'
+  | 'surat'
+  | 'hepsijet'
+  | 'ups'
+  | 'kolaygelsin'
 
 export interface CarrierInfo {
   slug: CarrierSlug
@@ -45,7 +54,12 @@ export const CARRIERS: CarrierInfo[] = [
   { slug: 'ptt', name: 'PTT Kargo', prefix: 'PTT' },
   { slug: 'trendyol', name: 'Trendyol Express', prefix: 'TY' },
   { slug: 'surat', name: 'Sürat Kargo', prefix: 'SRT' },
+  { slug: 'hepsijet', name: 'HepsiJet', prefix: 'HPS' },
+  { slug: 'ups', name: 'UPS', prefix: 'UPS' },
+  { slug: 'kolaygelsin', name: 'Kolay Gelsin', prefix: 'KOL' },
 ]
+
+export const CARRIER_COUNT = CARRIERS.length
 
 export interface DemoTracking {
   label: string
@@ -60,6 +74,9 @@ export const DEMO_TRACKINGS: DemoTracking[] = [
   { label: 'Sürat Kargo', number: '7240436855704001', hint: 'Teslim edildi' },
   { label: 'PTT Kargo', number: '7340033913597705', hint: 'Teslim edildi' },
   { label: 'Trendyol Express', number: '7330035301373796', hint: 'Teslim edildi' },
+  { label: 'HepsiJet', number: 'HPS345678901', hint: 'Yolda' },
+  { label: 'UPS', number: 'UPS9876543210', hint: 'Dağıtım merkezinde' },
+  { label: 'Kolay Gelsin', number: 'KOL112233445', hint: 'Hazırlanıyor' },
 ]
 
 export const STATUS_LABELS: Record<ShipmentStatus, string> = {

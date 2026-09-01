@@ -1,5 +1,5 @@
 import type { NormalizedShipment, ShipmentStatus, TrackingEvent } from '~/types/tracking'
-import { formatDateTime, mapArasStatus, mapMngStatus, mapPttStatus, mapSuratStatus, mapTrendyolStatus, mapYurticiStatus } from '~/utils/statusMapper'
+import { formatDateTime, mapArasStatus, mapHepsijetStatus, mapKolaygelsinStatus, mapMngStatus, mapPttStatus, mapSuratStatus, mapTrendyolStatus, mapUpsStatus, mapYurticiStatus } from '~/utils/statusMapper'
 
 interface ArasApiResponse {
   status: string
@@ -260,6 +260,123 @@ export function normalizeSuratResponse(data: SuratApiResponse): NormalizedShipme
     currentStatus: mapSuratStatus(shipment.lastStatus),
     currentLocation: shipment.currentBranch,
     lastUpdated: formatDateTime(shipment.lastUpdate),
+    events,
+  }
+}
+
+interface HepsijetApiResponse {
+  current_status: string
+  location: { city: string }
+  barcode: string
+  updated_at: string
+  movements: Array<{
+    current_status: string
+    location: { city: string }
+    timestamp: string
+    description: string
+  }>
+}
+
+interface UpsApiResponse {
+  trackResponse: {
+    shipment: Array<{
+      inquiryNumber: string
+      package: Array<{
+        activity: Array<{
+          status: { type: string, description: string }
+          location: { address: { city: string } }
+          date: string
+          time: string
+        }>
+      }>
+    }>
+  }
+}
+
+interface KolaygelsinApiResponse {
+  data: {
+    shipment: {
+      consignmentNo: string
+      statusCode: string
+      statusText: string
+      lastLocation: string
+      lastUpdateTime: string
+    }
+    trackingDetails: Array<{
+      statusCode: string
+      statusDescription: string
+      locationName: string
+      eventDate: string
+    }>
+  }
+}
+
+export function normalizeHepsijetResponse(data: HepsijetApiResponse): NormalizedShipment {
+  const events: TrackingEvent[] = data.movements.map((item) =>
+    toEvent(
+      mapHepsijetStatus(item.current_status),
+      item.description,
+      item.location.city,
+      item.timestamp,
+    ),
+  )
+
+  return {
+    carrier: 'HepsiJet',
+    carrierSlug: 'hepsijet',
+    trackingNumber: data.barcode,
+    currentStatus: mapHepsijetStatus(data.current_status),
+    currentLocation: data.location.city,
+    lastUpdated: formatDateTime(data.updated_at),
+    events,
+  }
+}
+
+export function normalizeUpsResponse(data: UpsApiResponse): NormalizedShipment {
+  const shipment = data.trackResponse.shipment[0]
+  const activities = shipment.package[0]?.activity ?? []
+
+  const events: TrackingEvent[] = activities.map((item) => {
+    const timestamp = `${item.date}T${item.time}+03:00`
+    return toEvent(
+      mapUpsStatus(item.status.type),
+      item.status.description,
+      item.location.address.city,
+      timestamp,
+    )
+  })
+
+  const latest = activities[0]
+
+  return {
+    carrier: 'UPS',
+    carrierSlug: 'ups',
+    trackingNumber: shipment.inquiryNumber,
+    currentStatus: latest ? mapUpsStatus(latest.status.type) : 'in_transit',
+    currentLocation: latest?.location.address.city ?? '—',
+    lastUpdated: latest ? formatDateTime(`${latest.date}T${latest.time}+03:00`) : '—',
+    events,
+  }
+}
+
+export function normalizeKolaygelsinResponse(data: KolaygelsinApiResponse): NormalizedShipment {
+  const shipment = data.data.shipment
+  const events: TrackingEvent[] = data.data.trackingDetails.map((item) =>
+    toEvent(
+      mapKolaygelsinStatus(item.statusCode),
+      item.statusDescription,
+      item.locationName,
+      item.eventDate,
+    ),
+  )
+
+  return {
+    carrier: 'Kolay Gelsin',
+    carrierSlug: 'kolaygelsin',
+    trackingNumber: shipment.consignmentNo,
+    currentStatus: mapKolaygelsinStatus(shipment.statusCode),
+    currentLocation: shipment.lastLocation,
+    lastUpdated: formatDateTime(shipment.lastUpdateTime),
     events,
   }
 }

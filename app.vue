@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { CARRIER_COUNT } from '~/types/tracking'
+
 const { goHome } = useTracking()
 </script>
 
@@ -14,7 +16,10 @@ const { goHome } = useTracking()
               <span class="app-logo__radar">Radar</span>
             </span>
           </NuxtLink>
-          <p class="app-tagline d-none d-sm-block">Kargo takip platformu</p>
+          <div class="app-header__actions">
+            <p class="app-tagline d-none d-sm-block">Kargo takip platformu</p>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
@@ -35,7 +40,7 @@ const { goHome } = useTracking()
           </div>
 
           <p class="app-footer__note">
-            6 kargo firması destekleniyor.
+            {{ CARRIER_COUNT }} kargo firması destekleniyor.
           </p>
         </div>
 
