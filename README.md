@@ -1,9 +1,13 @@
 # Kargo Radar
 
-Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip edilebildiği kargo takip uygulaması.
+Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip edilebildiği kargo takip uygulaması. **9 kargo firması** desteklenir; farklı API formatları ortak bir yapıya dönüştürülür.
 
 - **Canlı:** https://kargo-radar.vercel.app
 - **Repo:** https://github.com/aksoyece/kargo-radar
+
+## Desteklenen Firmalar
+
+Aras Kargo · Yurtiçi Kargo · MNG Kargo · PTT Kargo · Trendyol Express · Sürat Kargo · HepsiJet · UPS · Kolay Gelsin
 
 ## Ekran Görüntüsü
 
@@ -31,14 +35,17 @@ Uygulama `http://localhost:3000` adresinde çalışır.
 
 ## Demo Takip Numaraları (Mock Mod)
 
-| Firma | Takip Numarası |
-|-------|----------------|
-| Aras Kargo | `ARS123456789` |
-| Yurtiçi Kargo | `YRT987654321` |
-| Sürat Kargo | `7240436855704001` |
-| HepsiJet | `HPS345678901` |
-| UPS | `UPS9876543210` |
-| Kolay Gelsin | `KOL112233445` |
+| Firma | Takip Numarası | Örnek Durum |
+|-------|----------------|-------------|
+| Aras Kargo | `ARS123456789` | Dağıtımda |
+| Yurtiçi Kargo | `YRT987654321` | Dağıtımda |
+| MNG Kargo | `MNG456789123` | Dağıtımda |
+| Sürat Kargo | `7240436855704001` | Teslim edildi |
+| PTT Kargo | `7340033913597705` | Teslim edildi |
+| Trendyol Express | `7330035301373796` | Teslim edildi |
+| HepsiJet | `HPS345678901` | Yolda |
+| UPS | `UPS9876543210` | Dağıtım merkezinde |
+| Kolay Gelsin | `KOL112233445` | Hazırlanıyor |
 
 ## Canlıya Geçiş (AfterShip)
 
@@ -95,6 +102,12 @@ Uygulama, farklı kaynaklardan gelen verileri ortak `NormalizedShipment` format�
 | Aras Kargo (mock) | `{ status, city, history[] }` |
 | Yurtiçi Kargo (mock) | `{ current_status, location: { city }, movements[] }` |
 | MNG Kargo (mock) | `{ data: { shipment, trackingDetails[] } }` |
+| PTT Kargo (mock) | `{ sonuc: { takipNo, durumKodu, detaylar[] } }` |
+| Trendyol Express (mock) | `{ shipment, timeline[] }` |
+| Sürat Kargo (mock) | `{ response, statusHistory[] }` |
+| HepsiJet (mock) | `{ current_status, location, movements[] }` |
+| UPS (mock) | `{ trackResponse: { shipment, package, activity[] } }` |
+| Kolay Gelsin (mock) | `{ data: { shipment, trackingDetails[] } }` |
 | AfterShip API | `{ tag, checkpoints[], slug, ... }` |
 
 Adapter katmanları:
