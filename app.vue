@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const config = useRuntimeConfig()
-const useAftership = computed(() => config.public.useAftership)
 </script>
 
 <template>
@@ -23,27 +21,17 @@ const useAftership = computed(() => config.public.useAftership)
 
     <footer class="app-footer">
       <div class="app-footer__inner container">
-        <div class="app-footer__left">
-          <p class="app-footer__brand">Paket Dedektifi</p>
-          <p class="app-footer__meta">
-            Nuxt · Vue · Bootstrap ·
-            {{ useAftership ? 'AfterShip + Mock' : 'Mock API' }}
-          </p>
-        </div>
-        <div class="app-footer__right">
-          <p class="app-footer__credit">
-            Designed &amp; developed by
-            <a
-              href="https://www.linkedin.com/in/eceaksoy16"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="app-footer__link"
-            >Ece Aksoy</a>
-          </p>
-          <p class="app-footer__copy">
-            &copy; {{ new Date().getFullYear() }}
-          </p>
-        </div>
+        <p class="app-footer__credit-line">
+          &copy; {{ new Date().getFullYear() }} Paket Dedektifi
+          <span class="app-footer__sep" aria-hidden="true">·</span>
+          Designed &amp; developed by
+          <a
+            href="https://www.linkedin.com/in/eceaksoy16"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="app-footer__link"
+          >Ece Aksoy</a>
+        </p>
       </div>
     </footer>
   </div>
