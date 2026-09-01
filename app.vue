@@ -30,14 +30,6 @@
             <p class="app-footer__tagline">Kargonuzu tek yerden takip edin.</p>
           </div>
 
-          <nav class="app-footer__nav" aria-label="Footer navigasyonu">
-            <p class="app-footer__nav-title">Keşfet</p>
-            <ul class="app-footer__nav-list">
-              <li><a href="#nasil-calisir" class="app-footer__nav-link">Nasıl çalışır?</a></li>
-              <li><a href="#firmalar" class="app-footer__nav-link">Firmalar</a></li>
-            </ul>
-          </nav>
-
           <p class="app-footer__note">
             6 kargo firması destekleniyor.
           </p>
