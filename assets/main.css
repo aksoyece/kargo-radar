@@ -877,13 +877,16 @@ body,
   font-size: 0.875rem;
 }
 
+.app-footer__right {
+  margin-left: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
 .app-footer__credit {
   font-size: 0.8125rem;
   color: var(--slate);
   margin: 0;
-  margin-left: auto;
-  text-align: right;
-  flex-shrink: 0;
 }
 
 .app-footer__link {
@@ -903,6 +906,10 @@ body,
   color: var(--slate-light);
   font-size: 0.75rem;
   margin: 0;
+}
+
+.app-footer__right .app-footer__copy {
+  margin-top: 0.2rem;
 }
 
 /* ── Responsive ── */
@@ -941,7 +948,7 @@ body,
     align-items: stretch;
   }
 
-  .app-footer__credit {
+  .app-footer__right {
     text-align: right;
     margin-left: 0;
   }

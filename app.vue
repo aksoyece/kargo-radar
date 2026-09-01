@@ -29,19 +29,21 @@ const useAftership = computed(() => config.public.useAftership)
             Nuxt · Vue · Bootstrap ·
             {{ useAftership ? 'AfterShip + Mock' : 'Mock API' }}
           </p>
+        </div>
+        <div class="app-footer__right">
+          <p class="app-footer__credit">
+            Designed &amp; developed by
+            <a
+              href="https://www.linkedin.com/in/eceaksoy16"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="app-footer__link"
+            >Ece Aksoy</a>
+          </p>
           <p class="app-footer__copy">
             &copy; {{ new Date().getFullYear() }}
           </p>
         </div>
-        <p class="app-footer__credit">
-          Designed &amp; developed by
-          <a
-            href="https://www.linkedin.com/in/eceaksoy16"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="app-footer__link"
-          >Ece Aksoy</a>
-        </p>
       </div>
     </footer>
   </div>
