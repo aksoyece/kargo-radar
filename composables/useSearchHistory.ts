@@ -1,10 +1,10 @@
-import type { NormalizedShipment } from '~/app/types/tracking'
+import type { NormalizedShipment } from '~/types/tracking'
 
 const HISTORY_KEY = 'paket-dedektifi-history'
 const MAX_HISTORY = 10
 
 export function useSearchHistory() {
-  const history = useState<import('~/app/types/tracking').SearchHistoryItem[]>('search-history', () => [])
+  const history = useState<import('~/types/tracking').SearchHistoryItem[]>('search-history', () => [])
 
   function loadHistory() {
     if (!import.meta.client) return

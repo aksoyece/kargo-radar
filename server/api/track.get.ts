@@ -2,10 +2,100 @@ import { fetchFromAfterShip } from '../services/aftership'
 import {
   normalizeArasResponse,
   normalizeMngResponse,
+  normalizePttResponse,
+  normalizeSuratResponse,
+  normalizeTrendyolResponse,
   normalizeYurticiResponse,
-} from '~/app/services/adapters'
-import { detectCarrier } from '~/app/utils/statusMapper'
-import { ARAS_MOCK, MNG_MOCK, simulateDelay, YURTICI_MOCK } from '../utils/mockData'
+} from '~/services/adapters'
+import type { CarrierSlug } from '~/types/tracking'
+import { detectCarrier } from '~/utils/statusMapper'
+import {
+  ARAS_MOCK,
+  getArasMockData,
+  getPttMockData,
+  getSuratMockData,
+  getTrendyolMockData,
+  MNG_MOCK,
+  PTT_MOCK,
+  simulateDelay,
+  SURAT_MOCK,
+  TRENDYOL_MOCK,
+  YURTICI_MOCK,
+} from '../utils/mockData'
+
+function resolveCarrier(normalized: string, raw: string): CarrierSlug {
+  const fromPrefix = detectCarrier(normalized)
+  if (fromPrefix) return fromPrefix
+
+  const trimmed = raw.trim()
+
+  if (normalized in ARAS_MOCK) return 'aras'
+  if (normalized in YURTICI_MOCK) return 'yurtici'
+  if (normalized in MNG_MOCK) return 'mng'
+  if (trimmed in PTT_MOCK) return 'ptt'
+  if (trimmed in TRENDYOL_MOCK) return 'trendyol'
+  if (normalized in SURAT_MOCK || trimmed in SURAT_MOCK) return 'surat'
+
+  if (/^\d+$/.test(normalized)) {
+    if (normalized.startsWith('726')) return 'aras'
+    if (normalized.startsWith('724')) return 'surat'
+    if (normalized.startsWith('733')) return 'trendyol'
+    if (normalized.startsWith('734')) return 'ptt'
+  }
+
+  return 'aras'
+}
+
+async function trackByCarrier(normalized: string, carrier: CarrierSlug) {
+  if (carrier === 'aras') {
+    const raw = await simulateDelay(getArasMockData(normalized), 800)
+    return normalizeArasResponse(raw as Parameters<typeof normalizeArasResponse>[0])
+  }
+
+  if (carrier === 'yurtici') {
+    const data = YURTICI_MOCK[normalized]
+    if (!data) {
+      throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı. Demo için YRT987654321 deneyin.' })
+    }
+    const raw = await simulateDelay(data, 900)
+    return normalizeYurticiResponse(raw as Parameters<typeof normalizeYurticiResponse>[0])
+  }
+
+  if (carrier === 'mng') {
+    const data = MNG_MOCK[normalized]
+    if (!data) {
+      throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı. Demo için MNG456789123 deneyin.' })
+    }
+    const raw = await simulateDelay(data, 1000)
+    return normalizeMngResponse(raw as Parameters<typeof normalizeMngResponse>[0])
+  }
+
+  if (carrier === 'ptt') {
+    const raw = await simulateDelay(getPttMockData(normalized), 850)
+    return normalizePttResponse(raw as Parameters<typeof normalizePttResponse>[0])
+  }
+
+  if (carrier === 'surat') {
+    const raw = await simulateDelay(getSuratMockData(normalized), 875)
+    return normalizeSuratResponse(raw as Parameters<typeof normalizeSuratResponse>[0])
+  }
+
+  const raw = await simulateDelay(getTrendyolMockData(normalized), 950)
+  return normalizeTrendyolResponse(raw as Parameters<typeof normalizeTrendyolResponse>[0])
+}
+
+function isKnownMockNumber(normalized: string, raw: string): boolean {
+  const trimmed = raw.trim()
+
+  return normalized in ARAS_MOCK
+    || normalized in YURTICI_MOCK
+    || normalized in MNG_MOCK
+    || trimmed in PTT_MOCK
+    || trimmed in TRENDYOL_MOCK
+    || normalized in SURAT_MOCK
+    || trimmed in SURAT_MOCK
+    || detectCarrier(normalized) !== null
+}
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
@@ -19,44 +109,23 @@ export default defineEventHandler(async (event) => {
   const normalized = number.trim().toUpperCase()
   const config = useRuntimeConfig()
 
-  if (config.public.useAftership) {
-    return fetchFromAfterShip(number.trim(), slug)
-  }
-
-  const carrier = detectCarrier(normalized)
-
-  if (!carrier) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Geçersiz takip numarası. ARS, YRT veya MNG ile başlamalıdır. Gerçek kargo takibi için AfterShip modunu etkinleştirin.',
-    })
-  }
-
   try {
-    if (carrier === 'aras') {
-      const data = ARAS_MOCK[normalized]
-      if (!data) {
-        throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı.' })
-      }
-      const raw = await simulateDelay(data, 800)
-      return normalizeArasResponse(raw as Parameters<typeof normalizeArasResponse>[0])
+    const carrier = resolveCarrier(normalized, number)
+
+    if (isKnownMockNumber(normalized, number)) {
+      return trackByCarrier(normalized, carrier)
     }
 
-    if (carrier === 'yurtici') {
-      const data = YURTICI_MOCK[normalized]
-      if (!data) {
-        throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı.' })
+    if (config.public.useAftership) {
+      try {
+        return await fetchFromAfterShip(number.trim(), slug || carrier)
       }
-      const raw = await simulateDelay(data, 900)
-      return normalizeYurticiResponse(raw as Parameters<typeof normalizeYurticiResponse>[0])
+      catch {
+        return trackByCarrier(normalized, carrier)
+      }
     }
 
-    const data = MNG_MOCK[normalized]
-    if (!data) {
-      throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı.' })
-    }
-    const raw = await simulateDelay(data, 1000)
-    return normalizeMngResponse(raw as Parameters<typeof normalizeMngResponse>[0])
+    return trackByCarrier(normalized, carrier)
   }
   catch (error: unknown) {
     const fetchError = error as { statusCode?: number, statusMessage?: string }

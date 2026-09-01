@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { STATUS_ICONS } from '~/app/types/tracking'
-import type { TrackingEvent } from '~/app/types/tracking'
+import { STATUS_ICONS } from '~/types/tracking'
+import type { TrackingEvent } from '~/types/tracking'
 
 defineProps<{
   events: TrackingEvent[]

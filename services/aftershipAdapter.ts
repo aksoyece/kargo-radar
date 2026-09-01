@@ -1,5 +1,5 @@
-import type { NormalizedShipment, ShipmentStatus, TrackingEvent } from '~/app/types/tracking'
-import { formatDateTime } from '~/app/utils/statusMapper'
+import type { NormalizedShipment, ShipmentStatus, TrackingEvent } from '~/types/tracking'
+import { formatDateTime } from '~/utils/statusMapper'
 
 export interface AfterShipTracking {
   id?: string

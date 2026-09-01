@@ -1,4 +1,4 @@
-import type { NormalizedShipment } from '~/app/types/tracking'
+import type { NormalizedShipment } from '~/types/tracking'
 
 export function useTracking() {
   const shipment = ref<NormalizedShipment | null>(null)

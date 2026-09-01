@@ -65,8 +65,8 @@ Uygulama, farklı kaynaklardan gelen verileri ortak `NormalizedShipment` format�
 | AfterShip API | `{ tag, checkpoints[], slug, ... }` |
 
 Adapter katmanları:
-- `app/services/adapters.ts` — mock API'ler
-- `app/services/aftershipAdapter.ts` — AfterShip API
+- `services/adapters.ts` — mock API'ler
+- `services/aftershipAdapter.ts` — AfterShip API
 - `server/services/aftership.ts` — AfterShip HTTP istemcisi
 
 ## Standart Kargo Durumları

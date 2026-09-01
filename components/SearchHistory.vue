@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { STATUS_LABELS } from '~/app/types/tracking'
+import { STATUS_LABELS } from '~/types/tracking'
 
 const emit = defineEmits<{
   select: [trackingNumber: string]

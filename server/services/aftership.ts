@@ -2,9 +2,9 @@ import type {
   AfterShipApiEnvelope,
   AfterShipApiError,
   AfterShipTracking,
-} from '~/app/services/aftershipAdapter'
-import { normalizeAfterShipTracking } from '~/app/services/aftershipAdapter'
-import type { NormalizedShipment } from '~/app/types/tracking'
+} from '~/services/aftershipAdapter'
+import { normalizeAfterShipTracking } from '~/services/aftershipAdapter'
+import type { NormalizedShipment } from '~/types/tracking'
 
 const AFTERSHIP_API_VERSION = '2026-07'
 const AFTERSHIP_BASE_URL = `https://api.aftership.com/tracking/${AFTERSHIP_API_VERSION}`

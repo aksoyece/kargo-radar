@@ -1,5 +1,5 @@
-import type { NormalizedShipment, ShipmentStatus, TrackingEvent } from '~/app/types/tracking'
-import { formatDateTime, mapArasStatus, mapMngStatus, mapYurticiStatus } from '~/app/utils/statusMapper'
+import type { NormalizedShipment, ShipmentStatus, TrackingEvent } from '~/types/tracking'
+import { formatDateTime, mapArasStatus, mapMngStatus, mapPttStatus, mapSuratStatus, mapTrendyolStatus, mapYurticiStatus } from '~/utils/statusMapper'
 
 interface ArasApiResponse {
   status: string
@@ -148,6 +148,118 @@ export function normalizeMngResponse(data: MngApiResponse): NormalizedShipment {
     currentStatus,
     currentLocation: shipment.lastLocation,
     lastUpdated: formatDateTime(shipment.lastUpdateTime),
+    events,
+  }
+}
+
+interface PttApiResponse {
+  sonuc: {
+    takipNo: string
+    durumKodu: string
+    durumAciklama: string
+    sonKonum: string
+    sonGuncelleme: string
+    detaylar: Array<{
+      durum: string
+      aciklama: string
+      yer: string
+      tarih: string
+    }>
+  }
+}
+
+interface TrendyolApiResponse {
+  shipment: {
+    trackingNumber: string
+    status: string
+    lastLocation: string
+    updatedAt: string
+  }
+  timeline: Array<{
+    status: string
+    description: string
+    location: string
+    timestamp: string
+  }>
+}
+
+export function normalizePttResponse(data: PttApiResponse): NormalizedShipment {
+  const result = data.sonuc
+  const events: TrackingEvent[] = result.detaylar.map((item) =>
+    toEvent(
+      mapPttStatus(item.durum),
+      item.aciklama,
+      item.yer,
+      item.tarih,
+    ),
+  )
+
+  return {
+    carrier: 'PTT Kargo',
+    carrierSlug: 'ptt',
+    trackingNumber: result.takipNo,
+    currentStatus: mapPttStatus(result.durumKodu),
+    currentLocation: result.sonKonum,
+    lastUpdated: formatDateTime(result.sonGuncelleme),
+    events,
+  }
+}
+
+export function normalizeTrendyolResponse(data: TrendyolApiResponse): NormalizedShipment {
+  const events: TrackingEvent[] = data.timeline.map((item) =>
+    toEvent(
+      mapTrendyolStatus(item.status),
+      item.description,
+      item.location,
+      item.timestamp,
+    ),
+  )
+
+  return {
+    carrier: 'Trendyol Express',
+    carrierSlug: 'trendyol',
+    trackingNumber: data.shipment.trackingNumber,
+    currentStatus: mapTrendyolStatus(data.shipment.status),
+    currentLocation: data.shipment.lastLocation,
+    lastUpdated: formatDateTime(data.shipment.updatedAt),
+    events,
+  }
+}
+
+interface SuratApiResponse {
+  response: {
+    barcodeNo: string
+    lastStatus: string
+    lastStatusText: string
+    currentBranch: string
+    lastUpdate: string
+  }
+  statusHistory: Array<{
+    statusCode: string
+    statusText: string
+    branchName: string
+    actionDate: string
+  }>
+}
+
+export function normalizeSuratResponse(data: SuratApiResponse): NormalizedShipment {
+  const shipment = data.response
+  const events: TrackingEvent[] = data.statusHistory.map((item) =>
+    toEvent(
+      mapSuratStatus(item.statusCode),
+      item.statusText,
+      item.branchName,
+      item.actionDate,
+    ),
+  )
+
+  return {
+    carrier: 'Sürat Kargo',
+    carrierSlug: 'surat',
+    trackingNumber: shipment.barcodeNo,
+    currentStatus: mapSuratStatus(shipment.lastStatus),
+    currentLocation: shipment.currentBranch,
+    lastUpdated: formatDateTime(shipment.lastUpdate),
     events,
   }
 }

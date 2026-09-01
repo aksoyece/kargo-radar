@@ -2,14 +2,10 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  srcDir: '.',
-  dir: {
-    app: 'app',
-  },
   modules: ['@pinia/nuxt'],
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
-    '~/app/assets/main.css',
+    '~/assets/main.css',
   ],
   runtimeConfig: {
     aftershipApiKey: process.env.AFTERSHIP_API_KEY || '',
