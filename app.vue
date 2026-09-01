@@ -10,8 +10,8 @@ const { goHome } = useTracking()
           <NuxtLink to="/" class="app-logo" @click="goHome">
             <AppLogoIcon :size="36" />
             <span class="app-logo__text">
-              <span class="app-logo__paket">Paket</span>
-              <span class="app-logo__dedektifi">Dedektifi</span>
+              <span class="app-logo__kargo">Kargo</span>
+              <span class="app-logo__radar">Radar</span>
             </span>
           </NuxtLink>
           <p class="app-tagline d-none d-sm-block">Kargo takip platformu</p>
@@ -29,7 +29,7 @@ const { goHome } = useTracking()
           <div class="app-footer__brand">
             <NuxtLink to="/" class="app-footer__brand-link" @click="goHome">
               <AppLogoIcon :size="28" />
-              <span class="app-footer__brand-name">Paket Dedektifi</span>
+              <span class="app-footer__brand-name">Kargo Radar</span>
             </NuxtLink>
             <p class="app-footer__tagline">Kargonuzu tek yerden takip edin.</p>
           </div>
@@ -41,7 +41,7 @@ const { goHome } = useTracking()
 
         <div class="app-footer__bottom">
           <p class="app-footer__credit-line">
-            &copy; {{ new Date().getFullYear() }} Paket Dedektifi
+            &copy; {{ new Date().getFullYear() }} Kargo Radar
             <span class="app-footer__sep" aria-hidden="true">·</span>
             Designed &amp; developed by
             <a

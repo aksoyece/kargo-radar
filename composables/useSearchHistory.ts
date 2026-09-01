@@ -1,6 +1,6 @@
 import type { NormalizedShipment } from '~/types/tracking'
 
-const HISTORY_KEY = 'paket-dedektifi-history'
+const HISTORY_KEY = 'kargo-radar-history'
 const MAX_HISTORY = 10
 
 export function useSearchHistory() {

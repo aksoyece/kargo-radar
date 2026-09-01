@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Paket Dedektifi',
+      title: 'Kargo Radar',
       link: [
         {
           rel: 'icon',
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
       meta: [
         {
           name: 'description',
-          content: 'Paket Dedektifi — farklı kargo firmalarına ait gönderilerinizi tek bir uygulama üzerinden takip edin.',
+          content: 'Kargo Radar — farklı kargo firmalarına ait gönderilerinizi tek bir uygulama üzerinden takip edin.',
         },
         {
           name: 'theme-color',

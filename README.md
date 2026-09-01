@@ -1,4 +1,4 @@
-# Paket Dedektifi
+# Kargo Radar
 
 Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip edilebildiği kargo takip uygulaması.
 
