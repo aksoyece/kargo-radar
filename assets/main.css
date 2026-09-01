@@ -255,6 +255,35 @@ body,
   animation: spin 0.7s linear infinite;
 }
 
+/* ── Back to home ── */
+
+.back-home-bar {
+  margin-top: 1.5rem;
+}
+
+.btn-back-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--slate);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.btn-back-home:hover {
+  color: var(--accent);
+}
+
+.btn-back-home__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 /* ── Demo hints ── */
 
 .demo-hints {

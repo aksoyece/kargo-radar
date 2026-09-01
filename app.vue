@@ -1,9 +1,13 @@
+<script setup lang="ts">
+const { goHome } = useTracking()
+</script>
+
 <template>
   <div>
     <header class="app-header">
       <div class="container">
         <div class="app-header__inner">
-          <NuxtLink to="/" class="app-logo">
+          <NuxtLink to="/" class="app-logo" @click="goHome">
             <AppLogoIcon :size="36" />
             <span class="app-logo__text">
               <span class="app-logo__paket">Paket</span>
@@ -23,7 +27,7 @@
       <div class="container">
         <div class="app-footer__main">
           <div class="app-footer__brand">
-            <NuxtLink to="/" class="app-footer__brand-link">
+            <NuxtLink to="/" class="app-footer__brand-link" @click="goHome">
               <AppLogoIcon :size="28" />
               <span class="app-footer__brand-name">Paket Dedektifi</span>
             </NuxtLink>

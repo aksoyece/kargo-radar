@@ -2,14 +2,14 @@
 import { DEMO_TRACKINGS } from '~/types/tracking'
 
 const config = useRuntimeConfig()
-const trackingNumber = ref('')
-const { shipment, loading, error, track } = useTracking()
+const { shipment, loading, error, trackingNumber, track, goHome } = useTracking()
 
 const useAftership = computed(() => config.public.useAftership)
 const showEmptyState = computed(() => !shipment.value && !loading.value && !error.value)
+const showBackHome = computed(() => !loading.value && (shipment.value || error.value))
 
 async function handleSubmit() {
-  await track(trackingNumber.value)
+  await track()
 }
 
 function handleDemoSelect(number: string) {
@@ -75,6 +75,13 @@ function handleHistorySelect(number: string) {
         </div>
       </div>
     </section>
+
+    <div v-if="showBackHome" class="back-home-bar">
+      <button type="button" class="btn-back-home" @click="goHome">
+        <span class="btn-back-home__icon" aria-hidden="true">←</span>
+        Yeni arama yap
+      </button>
+    </div>
 
     <div v-if="loading" class="loading-state">
       <div class="spinner" />
