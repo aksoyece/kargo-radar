@@ -23,7 +23,16 @@ const useAftership = computed(() => config.public.useAftership)
 
     <footer class="app-footer">
       <div class="app-footer__inner container">
-        <p class="app-footer__brand">Paket Dedektifi</p>
+        <div class="app-footer__left">
+          <p class="app-footer__brand">Paket Dedektifi</p>
+          <p class="app-footer__meta">
+            Nuxt · Vue · Bootstrap ·
+            {{ useAftership ? 'AfterShip + Mock' : 'Mock API' }}
+          </p>
+          <p class="app-footer__copy">
+            &copy; {{ new Date().getFullYear() }}
+          </p>
+        </div>
         <p class="app-footer__credit">
           Designed &amp; developed by
           <a
@@ -32,13 +41,6 @@ const useAftership = computed(() => config.public.useAftership)
             rel="noopener noreferrer"
             class="app-footer__link"
           >Ece Aksoy</a>
-        </p>
-        <p class="app-footer__meta">
-          Nuxt · Vue · Bootstrap ·
-          {{ useAftership ? 'AfterShip + Mock' : 'Mock API' }}
-        </p>
-        <p class="app-footer__copy">
-          &copy; {{ new Date().getFullYear() }}
         </p>
       </div>
     </footer>
