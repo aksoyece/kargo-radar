@@ -32,9 +32,13 @@ function handleHistorySelect(number: string) {
         Takip numaranızı girerek gönderinizin güncel durumunu ve hareket geçmişini görüntüleyin.
       </p>
 
-      <div v-if="useAftership" class="notice-bar">
+      <div v-if="!useAftership" class="notice-bar">
         <span class="notice-bar__dot" aria-hidden="true" />
-        <span>Demo modu aktif — gerçek veriler simüle edilmektedir.</span>
+        <span>Demo modu — veriler simüle edilmektedir.</span>
+      </div>
+      <div v-else class="notice-bar notice-bar--live">
+        <span class="notice-bar__dot" aria-hidden="true" />
+        <span>Canlı mod — AfterShip API ile gerçek takip verisi kullanılıyor.</span>
       </div>
 
       <div class="search-card card">

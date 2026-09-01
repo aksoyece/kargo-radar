@@ -221,9 +221,18 @@ body,
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--success);
+  background: var(--warning);
   margin-top: 0.45rem;
   flex-shrink: 0;
+}
+
+.notice-bar--live {
+  border-color: color-mix(in srgb, var(--success) 35%, var(--border));
+  background: var(--success-soft);
+}
+
+.notice-bar--live .notice-bar__dot {
+  background: var(--success);
 }
 
 /* ── Card ── */

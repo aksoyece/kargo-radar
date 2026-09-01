@@ -36,7 +36,28 @@ Uygulama `http://localhost:3000` adresinde çalışır.
 | UPS | `UPS9876543210` |
 | Kolay Gelsin | `KOL112233445` |
 
-## AfterShip Entegrasyonu
+## Canlıya Geçiş (AfterShip)
+
+Altyapı hazır. Aktifleştirmek için:
+
+1. [AfterShip](https://www.aftership.com/) hesabı aç (Tracking API — Premium plan gerekir)
+2. [API anahtarı](https://organization.automizely.com/api-keys) al
+3. **Vercel** → Project → Settings → Environment Variables:
+
+```env
+NUXT_PUBLIC_USE_AFTERSHIP=true
+AFTERSHIP_API_KEY=asat_xxxxxxxx
+```
+
+4. Redeploy et
+
+**Davranış:**
+- Demo numaraları (`ARS123…`, `HPS345…` vb.) → mock veri (portfolyo demosu için)
+- Diğer tüm numaralar → AfterShip üzerinden gerçek takip
+
+Yerel test için `.env` dosyasına aynı değişkenleri ekle.
+
+## AfterShip Entegrasyonu (Teknik)
 
 Gerçek kargo verileri için [AfterShip Tracking API](https://www.aftership.com/docs/tracking/quickstart/api-quick-start) kullanılır.
 
