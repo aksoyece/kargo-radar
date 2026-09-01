@@ -20,21 +20,42 @@
     </main>
 
     <footer class="app-footer">
-      <div class="app-footer__inner container">
-        <NuxtLink to="/" class="app-footer__logo-link" aria-label="Paket Dedektifi ana sayfa">
-          <AppLogoIcon :size="22" class="app-footer__logo" />
-        </NuxtLink>
-        <p class="app-footer__credit-line">
-          &copy; {{ new Date().getFullYear() }} Paket Dedektifi
-          <span class="app-footer__sep" aria-hidden="true">·</span>
-          Designed &amp; developed by
-          <a
-            href="https://www.linkedin.com/in/eceaksoy16"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="app-footer__link"
-          >Ece Aksoy</a>
-        </p>
+      <div class="container">
+        <div class="app-footer__main">
+          <div class="app-footer__brand">
+            <NuxtLink to="/" class="app-footer__brand-link">
+              <AppLogoIcon :size="28" />
+              <span class="app-footer__brand-name">Paket Dedektifi</span>
+            </NuxtLink>
+            <p class="app-footer__tagline">Kargonuzu tek yerden takip edin.</p>
+          </div>
+
+          <nav class="app-footer__nav" aria-label="Footer navigasyonu">
+            <p class="app-footer__nav-title">Keşfet</p>
+            <ul class="app-footer__nav-list">
+              <li><a href="#nasil-calisir" class="app-footer__nav-link">Nasıl çalışır?</a></li>
+              <li><a href="#firmalar" class="app-footer__nav-link">Firmalar</a></li>
+            </ul>
+          </nav>
+
+          <p class="app-footer__note">
+            6 kargo firması destekleniyor.
+          </p>
+        </div>
+
+        <div class="app-footer__bottom">
+          <p class="app-footer__credit-line">
+            &copy; {{ new Date().getFullYear() }} Paket Dedektifi
+            <span class="app-footer__sep" aria-hidden="true">·</span>
+            Designed &amp; developed by
+            <a
+              href="https://www.linkedin.com/in/eceaksoy16"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="app-footer__link"
+            >Ece Aksoy</a>
+          </p>
+        </div>
       </div>
     </footer>
   </div>

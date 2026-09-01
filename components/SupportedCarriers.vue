@@ -3,7 +3,7 @@ import { CARRIERS } from '~/types/tracking'
 </script>
 
 <template>
-  <section class="carriers-section" aria-label="Desteklenen kargo firmaları">
+  <section id="firmalar" class="carriers-section" aria-label="Desteklenen kargo firmaları">
     <h2 class="section-title">Desteklenen firmalar</h2>
     <p class="section-subtitle">
       Her firma farklı API formatı kullanır; hepsi aynı manifesto fişine dönüştürülür.

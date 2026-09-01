@@ -16,7 +16,7 @@ const steps = [
 </script>
 
 <template>
-  <section class="how-section" aria-label="Nasıl çalışır">
+  <section id="nasil-calisir" class="how-section" aria-label="Nasıl çalışır">
     <h2 class="section-title">Nasıl çalışır?</h2>
     <p class="section-subtitle">Üç adımda kargonuzu takip edin.</p>
     <div class="how-grid">
