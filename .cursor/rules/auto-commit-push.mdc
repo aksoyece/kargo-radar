@@ -1,0 +1,15 @@
+---
+description: Her kod degisikliginden sonra otomatik commit ve push yap
+alwaysApply: true
+---
+
+# Otomatik Commit ve Push
+
+Bu projede her anlamli kod degisikliginden sonra kullaniciya sormadan:
+
+1. `git add` ile ilgili dosyalari stage et
+2. Kisa ve acik bir commit mesaji yaz (Turkce, mevcut commit stiline uygun)
+3. `git push` ile origin'e gonder
+4. Commit sonrasi `git status` ile dogrula
+
+Kullanicidan ayrica onay bekleme. Sadece commit/push istemedigi ozel durumlarda (ornegin WIP, yarim is) atla.
