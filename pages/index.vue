@@ -26,23 +26,24 @@ function handleHistorySelect(number: string) {
 <template>
   <div>
     <section class="hero-section">
-      <div class="hero-stamp">6 firma · tek manifesto</div>
-      <h1 class="hero-title">Gönderinizi sorgulayın</h1>
+      <p class="hero-eyebrow">6 kargo firması destekleniyor</p>
+      <h1 class="hero-title">Kargonuzu takip edin</h1>
       <p class="hero-subtitle">
-        Farklı kargo servislerinden gelen veriler ortak bir gönderi fişine dönüştürülür.
+        Takip numaranızı girerek gönderinizin güncel durumunu ve hareket geçmişini görüntüleyin.
       </p>
 
-      <p v-if="useAftership" class="system-note">
-        <strong>Sistem notu:</strong> mock mod aktif — demo ve kayıtlı numaralar simüle veriyle gösterilir.
-      </p>
+      <div v-if="useAftership" class="notice-bar">
+        <span class="notice-bar__dot" aria-hidden="true" />
+        <span>Demo modu aktif — gerçek veriler simüle edilmektedir.</span>
+      </div>
 
-      <div class="search-card manifest-card">
+      <div class="search-card card">
         <form class="search-form" @submit.prevent="handleSubmit">
           <input
             v-model="trackingNumber"
             type="text"
             class="search-input"
-            placeholder="Takip numarası..."
+            placeholder="Takip numaranızı girin"
             :disabled="loading"
             autocomplete="off"
             spellcheck="false"
@@ -50,7 +51,7 @@ function handleHistorySelect(number: string) {
           >
           <button type="submit" class="btn-track" :disabled="loading || !trackingNumber.trim()">
             <span v-if="loading" class="btn-track__spinner" aria-hidden="true" />
-            {{ loading ? 'Sorgulanıyor' : 'Sorgula' }}
+            {{ loading ? 'Sorgulanıyor...' : 'Takip Et' }}
           </button>
         </form>
 
@@ -77,12 +78,12 @@ function handleHistorySelect(number: string) {
 
     <div v-if="loading" class="loading-state">
       <div class="spinner" />
-      <p>Manifesto hazırlanıyor</p>
-      <p class="loading-state__sub">API yanıtları ortak formata dönüştürülüyor…</p>
+      <p>Kargo bilgileri getiriliyor</p>
+      <p class="loading-state__sub">Veriler ortak formata dönüştürülüyor</p>
     </div>
 
     <div v-if="error && !loading" class="error-alert" role="alert">
-      <span class="error-alert__stamp">HATA</span>
+      <span class="error-alert__icon" aria-hidden="true">!</span>
       <div>
         <strong class="error-alert__title">Sorgu başarısız</strong>
         <p class="error-alert__text">{{ error }}</p>

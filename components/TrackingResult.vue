@@ -25,12 +25,12 @@ async function copyTrackingNumber() {
 </script>
 
 <template>
-  <div class="result-card manifest-card">
+  <div class="result-card card">
     <div class="result-header">
       <div class="result-header__top">
-        <div class="result-header__meta">
-          <p class="result-header__eyebrow">Gönderi manifestosu</p>
-          <h2 class="result-header__carrier">{{ shipment.carrier }}</h2>
+        <div>
+          <p class="result-header__carrier">{{ shipment.carrier }}</p>
+          <div class="result-header__number">{{ shipment.trackingNumber }}</div>
         </div>
         <button
           type="button"
@@ -38,14 +38,13 @@ async function copyTrackingNumber() {
           :title="copied ? 'Kopyalandı' : 'Numarayı kopyala'"
           @click="copyTrackingNumber"
         >
-          {{ copied ? 'kopyalandı' : 'kopyala' }}
+          {{ copied ? 'Kopyalandı' : 'Kopyala' }}
         </button>
       </div>
-      <div class="result-header__number">{{ shipment.trackingNumber }}</div>
-      <div class="result-status">
+      <div class="result-status-row">
         <span
-          class="status-stamp status-stamp--lg"
-          :class="`status-stamp--${shipment.currentStatus}`"
+          class="status-badge status-badge--lg"
+          :class="`status-badge--${shipment.currentStatus}`"
         >
           {{ STATUS_LABELS[shipment.currentStatus] }}
         </span>

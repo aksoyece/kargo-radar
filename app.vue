@@ -9,10 +9,10 @@ const useAftership = computed(() => config.public.useAftership)
       <div class="container">
         <div class="app-header__inner">
           <NuxtLink to="/" class="app-logo">
-            <span class="app-logo__mark">PD</span>
+            <span class="app-logo__icon" aria-hidden="true">📦</span>
             Paket Dedektifi
           </NuxtLink>
-          <p class="app-tagline d-none d-sm-block">Gönderi manifestosu · v1.0</p>
+          <p class="app-tagline d-none d-sm-block">Kargo takip platformu</p>
         </div>
       </div>
     </header>
@@ -26,7 +26,7 @@ const useAftership = computed(() => config.public.useAftership)
         <p class="app-footer__brand">Paket Dedektifi</p>
         <p class="app-footer__meta">
           Nuxt · Vue · Bootstrap ·
-          {{ useAftership ? 'AfterShip + mock fallback' : 'mock API' }}
+          {{ useAftership ? 'AfterShip + Mock' : 'Mock API' }}
         </p>
         <p class="app-footer__copy">
           &copy; {{ new Date().getFullYear() }}

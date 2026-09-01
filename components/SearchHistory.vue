@@ -13,7 +13,7 @@ const { history, removeFromHistory, clearHistory } = useSearchHistory()
     <div class="history-section__header">
       <h2 class="history-section__title">Arama geçmişi</h2>
       <button type="button" class="btn-clear-history" @click="clearHistory">
-        temizle
+        Temizle
       </button>
     </div>
     <ul class="history-list">
@@ -25,13 +25,11 @@ const { history, removeFromHistory, clearHistory } = useSearchHistory()
       >
         <div class="history-item__info">
           <span class="history-item__number">{{ item.trackingNumber }}</span>
-          <span class="history-item__carrier">
-            {{ item.carrier }}
-          </span>
+          <span class="history-item__carrier">{{ item.carrier }}</span>
         </div>
         <span
-          class="status-stamp"
-          :class="`status-stamp--${item.currentStatus}`"
+          class="status-badge"
+          :class="`status-badge--${item.currentStatus}`"
         >
           {{ STATUS_LABELS[item.currentStatus] }}
         </span>

@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <div class="timeline-section">
-    <h3 class="timeline-section__title">Hareket kaydı</h3>
+    <h3 class="timeline-section__title">Kargo hareketleri</h3>
     <div class="timeline">
       <div
         v-for="(event, index) in events"
@@ -16,8 +16,11 @@ defineProps<{
         class="timeline-item"
       >
         <div
-          class="timeline-item__marker"
-          :class="`timeline-item__marker--${event.status}`"
+          class="timeline-item__dot"
+          :class="{
+            'timeline-item__dot--delivered': event.status === 'delivered',
+            'timeline-item__dot--problem': event.status === 'problem',
+          }"
         />
         <div class="timeline-item__content">
           <div class="timeline-item__description">{{ event.description }}</div>
