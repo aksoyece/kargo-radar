@@ -866,7 +866,7 @@ body,
 
 .app-footer__inner {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .app-footer__credit-line {
@@ -932,10 +932,10 @@ body,
   }
 
   .app-footer__inner {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .app-footer__credit-line {
-    text-align: center;
+    text-align: left;
   }
 }
