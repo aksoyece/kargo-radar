@@ -24,6 +24,15 @@ const useAftership = computed(() => config.public.useAftership)
     <footer class="app-footer">
       <div class="app-footer__inner container">
         <p class="app-footer__brand">Paket Dedektifi</p>
+        <p class="app-footer__credit">
+          Designed &amp; developed by
+          <a
+            href="https://www.linkedin.com/in/eceaksoy16"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="app-footer__link"
+          >Ece Aksoy</a>
+        </p>
         <p class="app-footer__meta">
           Nuxt · Vue · Bootstrap ·
           {{ useAftership ? 'AfterShip + Mock' : 'Mock API' }}

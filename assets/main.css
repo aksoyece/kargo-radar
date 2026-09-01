@@ -871,6 +871,24 @@ body,
   font-size: 0.875rem;
 }
 
+.app-footer__credit {
+  font-size: 0.8125rem;
+  color: var(--slate);
+  margin: 0;
+}
+
+.app-footer__link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.app-footer__link:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
 .app-footer__meta,
 .app-footer__copy {
   color: var(--slate-light);
