@@ -5,6 +5,10 @@ Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip e
 - **Canlı:** https://kargo-radar.vercel.app
 - **Repo:** https://github.com/aksoyece/kargo-radar
 
+## Ekran Görüntüsü
+
+![Kargo Radar ana sayfa](docs/screenshot-home.png)
+
 ## Teknolojiler
 
 - **Nuxt.js 4** + **Vue.js 3**
