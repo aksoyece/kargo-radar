@@ -766,6 +766,15 @@ body,
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+@media (hover: hover) {
+  .how-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: #bfdbfe;
+  }
 }
 
 .how-card__step {
@@ -803,11 +812,20 @@ body,
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  transition: border-color var(--transition);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
 }
 
-.carrier-card:hover {
-  border-color: var(--border-strong);
+@media (hover: hover) {
+  .carrier-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: #bfdbfe;
+  }
+
+  .carrier-card:hover .carrier-card__code {
+    background: var(--accent);
+    color: #fff;
+  }
 }
 
 .carrier-card__code {
@@ -820,6 +838,7 @@ body,
   border-radius: 4px;
   min-width: 2rem;
   text-align: center;
+  transition: background 0.22s ease, color 0.22s ease;
 }
 
 .carrier-card__name {
