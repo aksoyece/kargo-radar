@@ -84,16 +84,24 @@ body,
   gap: 0.625rem;
 }
 
-.app-logo__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  background: var(--accent);
-  border-radius: 6px;
-  color: #fff;
+.app-logo__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.app-logo__paket {
+  color: #1e3a5f;
   font-size: 1rem;
+}
+
+.app-logo__dedektifi {
+  color: #4a90e2;
+  font-size: 1rem;
+}
+
+.app-logo-icon {
+  flex-shrink: 0;
 }
 
 .app-tagline {
@@ -862,11 +870,18 @@ body,
 }
 
 .app-footer__credit-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: #64748b;
   margin: 0;
   line-height: 1.5;
+}
+
+.app-footer__logo {
+  opacity: 0.85;
 }
 
 .app-footer__sep {

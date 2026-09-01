@@ -1,14 +1,14 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <div>
     <header class="app-header">
       <div class="container">
         <div class="app-header__inner">
           <NuxtLink to="/" class="app-logo">
-            <span class="app-logo__icon" aria-hidden="true">📦</span>
-            Paket Dedektifi
+            <AppLogoIcon :size="36" />
+            <span class="app-logo__text">
+              <span class="app-logo__paket">Paket</span>
+              <span class="app-logo__dedektifi">Dedektifi</span>
+            </span>
           </NuxtLink>
           <p class="app-tagline d-none d-sm-block">Kargo takip platformu</p>
         </div>
@@ -22,6 +22,7 @@
     <footer class="app-footer">
       <div class="app-footer__inner container">
         <p class="app-footer__credit-line">
+          <AppLogoIcon :size="18" class="app-footer__logo" />
           &copy; {{ new Date().getFullYear() }} Paket Dedektifi
           <span class="app-footer__sep" aria-hidden="true">·</span>
           Designed &amp; developed by
