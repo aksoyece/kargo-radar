@@ -51,6 +51,10 @@ export default defineNuxtConfig({
           innerHTML: `(function(){try{var t=localStorage.getItem('kargo-radar-theme');if(t!=='dark'&&t!=='light')t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}})();`,
           type: 'text/javascript',
         },
+        {
+          innerHTML: `(function(){try{if('scrollRestoration' in history)history.scrollRestoration='manual';window.scrollTo(0,0)}catch(e){}})();`,
+          type: 'text/javascript',
+        },
       ],
       link: [
         {

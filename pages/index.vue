@@ -24,8 +24,12 @@ function scrollToResponse() {
   })
 }
 
-watch([loading, shipment, error], ([isLoading, ship, err]) => {
-  if (isLoading || ship || err) {
+watch([loading, shipment, error], ([isLoading, ship, err], [wasLoading, prevShip, prevErr]) => {
+  const startedLoading = isLoading && !wasLoading
+  const gotResult = !!ship && ship !== prevShip
+  const gotError = !!err && err !== prevErr && !isLoading
+
+  if (startedLoading || gotResult || gotError) {
     scrollToResponse()
   }
 })
