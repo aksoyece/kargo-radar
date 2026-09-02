@@ -12,6 +12,23 @@ const errorTitle = computed(() => {
 })
 const showEmptyState = computed(() => !shipment.value && !loading.value && !error.value)
 const showBackHome = computed(() => !loading.value && (shipment.value || error.value))
+const showResponseArea = computed(() => loading.value || !!error.value || !!shipment.value)
+
+const responseAnchor = ref<HTMLElement | null>(null)
+
+function scrollToResponse() {
+  if (!import.meta.client) return
+
+  nextTick(() => {
+    responseAnchor.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
+}
+
+watch([loading, shipment, error], ([isLoading, ship, err]) => {
+  if (isLoading || ship || err) {
+    scrollToResponse()
+  }
+})
 
 async function handleSubmit() {
   await track()
@@ -85,28 +102,34 @@ function handleHistorySelect(number: string) {
       </div>
     </section>
 
-    <div v-if="showBackHome" class="back-home-bar">
-      <button type="button" class="btn-back-home" @click="goHome">
-        <span class="btn-back-home__icon" aria-hidden="true">←</span>
-        Yeni arama yap
-      </button>
-    </div>
-
-    <div v-if="loading" class="loading-state">
-      <div class="spinner" />
-      <p>Kargo bilgileri getiriliyor</p>
-      <p class="loading-state__sub">Veriler ortak formata dönüştürülüyor</p>
-    </div>
-
-    <div v-if="error && !loading" class="error-alert" role="alert">
-      <span class="error-alert__icon" aria-hidden="true">!</span>
-      <div>
-        <strong class="error-alert__title">{{ errorTitle }}</strong>
-        <p class="error-alert__text">{{ error }}</p>
+    <div
+      v-if="showResponseArea"
+      ref="responseAnchor"
+      class="tracking-response scroll-target"
+    >
+      <div v-if="showBackHome" class="back-home-bar">
+        <button type="button" class="btn-back-home" @click="goHome">
+          <span class="btn-back-home__icon" aria-hidden="true">←</span>
+          Yeni arama yap
+        </button>
       </div>
-    </div>
 
-    <TrackingResult v-if="shipment && !loading" :shipment="shipment" />
+      <div v-if="loading" class="loading-state">
+        <div class="spinner" />
+        <p>Kargo bilgileri getiriliyor</p>
+        <p class="loading-state__sub">Veriler ortak formata dönüştürülüyor</p>
+      </div>
+
+      <div v-if="error && !loading" class="error-alert" role="alert">
+        <span class="error-alert__icon" aria-hidden="true">!</span>
+        <div>
+          <strong class="error-alert__title">{{ errorTitle }}</strong>
+          <p class="error-alert__text">{{ error }}</p>
+        </div>
+      </div>
+
+      <TrackingResult v-if="shipment && !loading" :shipment="shipment" />
+    </div>
 
     <EmptyState v-if="showEmptyState" />
 

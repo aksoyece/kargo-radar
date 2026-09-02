@@ -100,6 +100,14 @@ body,
 
 /* ── Layout ── */
 
+.scroll-target {
+  scroll-margin-top: 5.5rem;
+}
+
+.tracking-response {
+  margin-top: 0;
+}
+
 .app-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
