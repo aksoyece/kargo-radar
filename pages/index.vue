@@ -5,6 +5,11 @@ const config = useRuntimeConfig()
 const { shipment, loading, error, trackingNumber, track, goHome } = useTracking()
 
 const useAftership = computed(() => config.public.useAftership)
+const errorTitle = computed(() => {
+  if (error.value?.includes('demo sürümünde')) return 'Demo modunda desteklenmiyor'
+  if (error.value?.includes('Kargo bulunamadı')) return 'Kargo bulunamadı'
+  return 'Sorgu başarısız'
+})
 const showEmptyState = computed(() => !shipment.value && !loading.value && !error.value)
 const showBackHome = computed(() => !loading.value && (shipment.value || error.value))
 
@@ -96,7 +101,7 @@ function handleHistorySelect(number: string) {
     <div v-if="error && !loading" class="error-alert" role="alert">
       <span class="error-alert__icon" aria-hidden="true">!</span>
       <div>
-        <strong class="error-alert__title">Sorgu başarısız</strong>
+        <strong class="error-alert__title">{{ errorTitle }}</strong>
         <p class="error-alert__text">{{ error }}</p>
       </div>
     </div>

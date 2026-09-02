@@ -25,9 +25,10 @@ import {
   YURTICI_MOCK,
 } from '../utils/mockData'
 
-const NOT_FOUND_MESSAGE = 'Kargo bulunamadı. Lütfen takip numaranızı kontrol edin.'
+const LIVE_NOT_FOUND_MESSAGE = 'Kargo bulunamadı. Lütfen takip numaranızı kontrol edin.'
+const DEMO_NOT_FOUND_MESSAGE = 'Kargo bulunamadı. Bu demo sürümünde yalnızca örnek takip numaraları kullanılabilir — yukarıdaki "Hızlı dene" listesinden birini deneyin.'
 
-function notFound(message = NOT_FOUND_MESSAGE) {
+function notFound(message = LIVE_NOT_FOUND_MESSAGE) {
   throw createError({ statusCode: 404, message, statusMessage: 'Kargo bulunamadı.' })
 }
 
@@ -138,7 +139,7 @@ export default defineEventHandler(async (event) => {
       return await fetchFromAfterShip(number.trim())
     }
 
-    notFound()
+    notFound(DEMO_NOT_FOUND_MESSAGE)
   }
   catch (error: unknown) {
     if (isError(error)) throw error
