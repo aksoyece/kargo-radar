@@ -31,6 +31,44 @@ export const ARAS_MOCK: Record<string, object> = {
       },
     ],
   },
+  ARS888777666: {
+    status: 'exception',
+    city: 'İzmir',
+    tracking_no: 'ARS888777666',
+    last_update: '2026-09-01T11:20:00+03:00',
+    history: [
+      {
+        status: 'exception',
+        city: 'İzmir',
+        date: '2026-09-01T11:20:00+03:00',
+        message: 'Teslimat sorunu oluştu',
+      },
+      {
+        status: 'out_for_delivery',
+        city: 'İzmir',
+        date: '2026-09-01T08:45:00+03:00',
+        message: 'Dağıtımda',
+      },
+      {
+        status: 'at_hub',
+        city: 'İzmir',
+        date: '2026-09-01T05:30:00+03:00',
+        message: 'Dağıtım merkezine ulaştı',
+      },
+      {
+        status: 'in_transit',
+        city: 'Bursa',
+        date: '2026-08-31T21:15:00+03:00',
+        message: 'Transfer merkezinden ayrıldı',
+      },
+      {
+        status: 'accepted',
+        city: 'Bursa',
+        date: '2026-08-31T13:00:00+03:00',
+        message: 'Kargo kabul edildi',
+      },
+    ],
+  },
   '7260036143471499': {
     status: 'delivered',
     city: 'Teslim Adresi',

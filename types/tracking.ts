@@ -77,6 +77,7 @@ export const DEMO_TRACKINGS: DemoTracking[] = [
   { label: 'HepsiJet', number: 'HPS345678901', hint: 'Yolda' },
   { label: 'UPS', number: 'UPS9876543210', hint: 'Dağıtım merkezinde' },
   { label: 'Kolay Gelsin', number: 'KOL112233445', hint: 'Hazırlanıyor' },
+  { label: 'Aras Kargo', number: 'ARS888777666', hint: 'Sorun oluştu' },
 ]
 
 export const STATUS_LABELS: Record<ShipmentStatus, string> = {

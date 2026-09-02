@@ -46,6 +46,7 @@ Uygulama `http://localhost:3000` adresinde çalışır.
 | HepsiJet | `HPS345678901` | Yolda |
 | UPS | `UPS9876543210` | Dağıtım merkezinde |
 | Kolay Gelsin | `KOL112233445` | Hazırlanıyor |
+| Aras Kargo (sorun) | `ARS888777666` | Sorun oluştu |
 
 ## Canlıya Geçiş (AfterShip)
 
