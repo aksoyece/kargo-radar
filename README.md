@@ -1,17 +1,25 @@
 # Kargo Radar
 
-Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip edilebildiği kargo takip uygulaması. **9 kargo firması** desteklenir; farklı API formatları ortak bir yapıya dönüştürülür.
+[![Nuxt 4](https://img.shields.io/badge/Nuxt-4-00DC82?style=flat&logo=nuxtdotjs&logoColor=white)](https://nuxt.com/)
+[![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D?style=flat&logo=vuedotjs&logoColor=white)](https://vuejs.org/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-kargo--radar.vercel.app-2563eb?style=flat)](https://kargo-radar.vercel.app)
+[![GitHub](https://img.shields.io/badge/GitHub-kargo--radar-181717?style=flat&logo=github&logoColor=white)](https://github.com/aksoyece/kargo-radar)
 
-- **Canlı:** https://kargo-radar.vercel.app
-- **Repo:** https://github.com/aksoyece/kargo-radar
+Farklı kargo firmalarına ait gönderilerin tek bir uygulama üzerinden takip edilebildiği kargo takip uygulaması. **9 kargo firması** desteklenir; farklı API formatları ortak bir yapıya dönüştürülür.
 
 ## Desteklenen Firmalar
 
 Aras Kargo · Yurtiçi Kargo · MNG Kargo · PTT Kargo · Trendyol Express · Sürat Kargo · HepsiJet · UPS · Kolay Gelsin
 
-## Ekran Görüntüsü
+## Ekran Görüntüleri
+
+**Ana sayfa** — arama formu, demo numaraları ve arama geçmişi:
 
 ![Kargo Radar ana sayfa](docs/screenshot-home.png)
+
+**Takip sonucu** — durum kartı, konum bilgisi ve emoji ikonlu timeline:
+
+![Kargo Radar takip sonucu](docs/screenshot-tracking.png)
 
 ## Teknolojiler
 
@@ -48,39 +56,30 @@ Uygulama `http://localhost:3000` adresinde çalışır.
 | Kolay Gelsin | `KOL112233445` | Hazırlanıyor |
 | Aras Kargo (sorun) | `ARS888777666` | Sorun oluştu |
 
-## Canlıya Geçiş (AfterShip)
+## AfterShip Entegrasyonu
 
-Altyapı hazır. Aktifleştirmek için:
+Gerçek kargo verileri için [AfterShip Tracking API](https://www.aftership.com/docs/tracking/quickstart/api-quick-start) kullanılır. Altyapı hazır; ortam değişkenleriyle aktifleştirilir.
 
-1. [AfterShip](https://www.aftership.com/) hesabı aç (Tracking API — Premium plan gerekir)
-2. [API anahtarı](https://organization.automizely.com/api-keys) al
-3. **Vercel** → Project → Settings → Environment Variables:
+### Kurulum Adımları
+
+1. [AfterShip](https://www.aftership.com/) hesabı açın (Tracking API — Premium plan gerekir)
+2. [API anahtarı](https://organization.automizely.com/api-keys) alın
+3. Ortam değişkenlerini ayarlayın:
+
+**Vercel** → Project → Settings → Environment Variables:
 
 ```env
 NUXT_PUBLIC_USE_AFTERSHIP=true
 AFTERSHIP_API_KEY=asat_xxxxxxxx
 ```
 
-4. Redeploy et
+Yerel geliştirme için `.env` dosyasına aynı değişkenleri ekleyin.
+
+4. Redeploy edin (Vercel) veya sunucuyu yeniden başlatın (yerel)
 
 **Davranış:**
 - Demo numaraları (`ARS123…`, `HPS345…` vb.) → mock veri (portfolyo demosu için)
 - Diğer tüm numaralar → AfterShip üzerinden gerçek takip
-
-Yerel test için `.env` dosyasına aynı değişkenleri ekle.
-
-## AfterShip Entegrasyonu (Teknik)
-
-Gerçek kargo verileri için [AfterShip Tracking API](https://www.aftership.com/docs/tracking/quickstart/api-quick-start) kullanılır.
-
-1. [AfterShip](https://www.aftership.com/) hesabı oluşturun
-2. [API anahtarı](https://organization.automizely.com/api-keys) alın
-3. `.env` dosyasını yapılandırın:
-
-```env
-NUXT_PUBLIC_USE_AFTERSHIP=true
-AFTERSHIP_API_KEY=your_api_key_here
-```
 
 ### API Akışı
 
@@ -93,6 +92,7 @@ AfterShip quick start dokümantasyonuna uygun olarak:
 
 - **Base URL:** `https://api.aftership.com/tracking/2026-07`
 - **Kimlik doğrulama:** `as-api-key` header'ı
+- **HTTP istemcisi:** `server/services/aftership.ts`
 
 ## Mimari
 
