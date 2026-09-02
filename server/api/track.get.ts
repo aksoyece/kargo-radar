@@ -1,3 +1,4 @@
+import { isError } from 'h3'
 import { fetchFromAfterShip } from '../services/aftership'
 import {
   normalizeArasResponse,
@@ -11,16 +12,8 @@ import {
   normalizeYurticiResponse,
 } from '~/services/adapters'
 import type { CarrierSlug } from '~/types/tracking'
-import { detectCarrier } from '~/utils/statusMapper'
 import {
   ARAS_MOCK,
-  getArasMockData,
-  getHepsijetMockData,
-  getKolaygelsinMockData,
-  getPttMockData,
-  getSuratMockData,
-  getTrendyolMockData,
-  getUpsMockData,
   HEPSIJET_MOCK,
   KOLAYGELSIN_MOCK,
   MNG_MOCK,
@@ -32,10 +25,13 @@ import {
   YURTICI_MOCK,
 } from '../utils/mockData'
 
-function resolveCarrier(normalized: string, raw: string): CarrierSlug {
-  const fromPrefix = detectCarrier(normalized)
-  if (fromPrefix) return fromPrefix
+const NOT_FOUND_MESSAGE = 'Kargo bulunamadı. Lütfen takip numaranızı kontrol edin.'
 
+function notFound(message = NOT_FOUND_MESSAGE) {
+  throw createError({ statusCode: 404, message, statusMessage: 'Kargo bulunamadı.' })
+}
+
+function resolveCarrierFromMock(normalized: string, raw: string): CarrierSlug | null {
   const trimmed = raw.trim()
 
   if (normalized in ARAS_MOCK) return 'aras'
@@ -48,91 +44,81 @@ function resolveCarrier(normalized: string, raw: string): CarrierSlug {
   if (normalized in UPS_MOCK) return 'ups'
   if (normalized in KOLAYGELSIN_MOCK) return 'kolaygelsin'
 
-  if (/^\d+$/.test(normalized)) {
-    if (normalized.startsWith('726')) return 'aras'
-    if (normalized.startsWith('724')) return 'surat'
-    if (normalized.startsWith('733')) return 'trendyol'
-    if (normalized.startsWith('734')) return 'ptt'
-    if (normalized.startsWith('735')) return 'hepsijet'
-    if (normalized.startsWith('729')) return 'kolaygelsin'
-  }
-
-  return 'aras'
+  return null
 }
 
-async function trackByCarrier(normalized: string, carrier: CarrierSlug) {
+function isKnownMockNumber(normalized: string, raw: string): boolean {
+  return resolveCarrierFromMock(normalized, raw) !== null
+}
+
+async function trackByCarrier(normalized: string, raw: string, carrier: CarrierSlug) {
+  const trimmed = raw.trim()
+
   if (carrier === 'aras') {
-    const raw = await simulateDelay(getArasMockData(normalized), 800)
-    return normalizeArasResponse(raw as Parameters<typeof normalizeArasResponse>[0])
+    const data = ARAS_MOCK[normalized]
+    if (!data) notFound()
+    const response = await simulateDelay(data, 800)
+    return normalizeArasResponse(response as Parameters<typeof normalizeArasResponse>[0])
   }
 
   if (carrier === 'yurtici') {
     const data = YURTICI_MOCK[normalized]
-    if (!data) {
-      throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı. Demo için YRT987654321 deneyin.' })
-    }
-    const raw = await simulateDelay(data, 900)
-    return normalizeYurticiResponse(raw as Parameters<typeof normalizeYurticiResponse>[0])
+    if (!data) notFound()
+    const response = await simulateDelay(data, 900)
+    return normalizeYurticiResponse(response as Parameters<typeof normalizeYurticiResponse>[0])
   }
 
   if (carrier === 'mng') {
     const data = MNG_MOCK[normalized]
-    if (!data) {
-      throw createError({ statusCode: 404, statusMessage: 'Kargo bulunamadı. Demo için MNG456789123 deneyin.' })
-    }
-    const raw = await simulateDelay(data, 1000)
-    return normalizeMngResponse(raw as Parameters<typeof normalizeMngResponse>[0])
+    if (!data) notFound()
+    const response = await simulateDelay(data, 1000)
+    return normalizeMngResponse(response as Parameters<typeof normalizeMngResponse>[0])
   }
 
   if (carrier === 'ptt') {
-    const raw = await simulateDelay(getPttMockData(normalized), 850)
-    return normalizePttResponse(raw as Parameters<typeof normalizePttResponse>[0])
+    const data = PTT_MOCK[trimmed]
+    if (!data) notFound()
+    const response = await simulateDelay(data, 850)
+    return normalizePttResponse(response as Parameters<typeof normalizePttResponse>[0])
   }
 
   if (carrier === 'surat') {
-    const raw = await simulateDelay(getSuratMockData(normalized), 875)
-    return normalizeSuratResponse(raw as Parameters<typeof normalizeSuratResponse>[0])
+    const data = SURAT_MOCK[normalized] || SURAT_MOCK[trimmed]
+    if (!data) notFound()
+    const response = await simulateDelay(data, 875)
+    return normalizeSuratResponse(response as Parameters<typeof normalizeSuratResponse>[0])
   }
 
   if (carrier === 'hepsijet') {
-    const raw = await simulateDelay(getHepsijetMockData(normalized), 880)
-    return normalizeHepsijetResponse(raw as Parameters<typeof normalizeHepsijetResponse>[0])
+    const data = HEPSIJET_MOCK[normalized]
+    if (!data) notFound()
+    const response = await simulateDelay(data, 880)
+    return normalizeHepsijetResponse(response as Parameters<typeof normalizeHepsijetResponse>[0])
   }
 
   if (carrier === 'ups') {
-    const raw = await simulateDelay(getUpsMockData(normalized), 920)
-    return normalizeUpsResponse(raw as Parameters<typeof normalizeUpsResponse>[0])
+    const data = UPS_MOCK[normalized]
+    if (!data) notFound()
+    const response = await simulateDelay(data, 920)
+    return normalizeUpsResponse(response as Parameters<typeof normalizeUpsResponse>[0])
   }
 
   if (carrier === 'kolaygelsin') {
-    const raw = await simulateDelay(getKolaygelsinMockData(normalized), 890)
-    return normalizeKolaygelsinResponse(raw as Parameters<typeof normalizeKolaygelsinResponse>[0])
+    const data = KOLAYGELSIN_MOCK[normalized]
+    if (!data) notFound()
+    const response = await simulateDelay(data, 890)
+    return normalizeKolaygelsinResponse(response as Parameters<typeof normalizeKolaygelsinResponse>[0])
   }
 
-  const raw = await simulateDelay(getTrendyolMockData(normalized), 950)
-  return normalizeTrendyolResponse(raw as Parameters<typeof normalizeTrendyolResponse>[0])
-}
-
-function isKnownMockNumber(normalized: string, raw: string): boolean {
-  const trimmed = raw.trim()
-
-  return normalized in ARAS_MOCK
-    || normalized in YURTICI_MOCK
-    || normalized in MNG_MOCK
-    || trimmed in PTT_MOCK
-    || trimmed in TRENDYOL_MOCK
-    || normalized in SURAT_MOCK
-    || trimmed in SURAT_MOCK
-    || normalized in HEPSIJET_MOCK
-    || normalized in UPS_MOCK
-    || normalized in KOLAYGELSIN_MOCK
-    || detectCarrier(normalized) !== null
+  const data = TRENDYOL_MOCK[trimmed]
+  if (!data) notFound()
+  const response = await simulateDelay(data, 950)
+  return normalizeTrendyolResponse(response as Parameters<typeof normalizeTrendyolResponse>[0])
 }
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const number = query.number as string
-  const slug = query.slug as string | undefined
 
   if (!number?.trim()) {
     throw createError({ statusCode: 400, statusMessage: 'Lütfen bir takip numarası girin.' })
@@ -142,31 +128,21 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
 
   try {
-    const carrier = resolveCarrier(normalized, number)
-
     if (isKnownMockNumber(normalized, number)) {
-      return trackByCarrier(normalized, carrier)
+      const carrier = resolveCarrierFromMock(normalized, number)
+      if (!carrier) notFound()
+      return trackByCarrier(normalized, number, carrier)
     }
 
     if (config.public.useAftership) {
-      try {
-        return await fetchFromAfterShip(number.trim(), slug || carrier)
-      }
-      catch {
-        return trackByCarrier(normalized, carrier)
-      }
+      return await fetchFromAfterShip(number.trim())
     }
 
-    return trackByCarrier(normalized, carrier)
+    notFound()
   }
   catch (error: unknown) {
-    const fetchError = error as { statusCode?: number, statusMessage?: string }
-    if (fetchError.statusCode) {
-      throw createError({
-        statusCode: fetchError.statusCode,
-        statusMessage: fetchError.statusMessage || 'Kargo bilgisi alınamadı.',
-      })
-    }
+    if (isError(error)) throw error
+
     throw createError({
       statusCode: 503,
       statusMessage: 'Kargo servisine ulaşılamadı. Lütfen daha sonra tekrar deneyin.',

@@ -30,9 +30,15 @@ export function useTracking() {
       addToHistory(result)
     }
     catch (err: unknown) {
-      const fetchError = err as { data?: { statusMessage?: string }, statusMessage?: string }
+      const fetchError = err as {
+        data?: { statusMessage?: string, message?: string }
+        statusMessage?: string
+        message?: string
+      }
       error.value =
-        fetchError.data?.statusMessage
+        fetchError.data?.message
+        || fetchError.data?.statusMessage
+        || fetchError.message
         || fetchError.statusMessage
         || 'Bir hata oluştu. Lütfen tekrar deneyin.'
       shipment.value = null
